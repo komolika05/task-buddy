@@ -31,4 +31,16 @@
   .fw-600 {
     font-weight: 600 !important;
   }
-  
+
+  .purple-btn {
+    background-color: #7B1984 !important;
+    color: white !important;
+    border-radius: 41px !important;
+    width: 152px;
+    height: 48px;
+  }
+
+  .purple-btn:hover {
+    background-color: #7e0057 !important;
+    color: white !important;
+  }

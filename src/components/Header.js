@@ -21,7 +21,7 @@ export default function Header() {
         }
     }
     return (
-        <div className="d-flex justify-content-between align-items-center py-3 px-4">
+        <div className="d-flex justify-content-between align-items-center mb-3 px-4">
             <div>
                 <h2 className="header-title fw-600">
                     <FontAwesomeIcon icon={faClipboardList} className="me-2"/>            

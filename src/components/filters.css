@@ -1,0 +1,47 @@
+.filters-container {
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.dropdown-menu {
+    min-width: 120px;
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa;
+    cursor: pointer;
+}
+
+.dropdown-btn {
+    background-color: white;
+    border: 1px solid lightgrey !important;
+    border-radius: 22px !important;
+    color: rgb(86, 86, 86) !important;
+}
+
+.search-container {
+    position: relative;
+    width: 300px;
+}
+
+.search-input {
+    padding: 8px 15px 8px 35px;
+    border-radius: 22px !important;
+    border: 1px solid lightgrey !important;
+    color: rgb(86, 86, 86);
+}
+
+.search-input:focus {
+    box-shadow: none !important;
+    border-color: lightgrey !important;
+}
+
+.search-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgb(86, 86, 86);
+    font-size: 14px;
+    z-index: 2;
+}

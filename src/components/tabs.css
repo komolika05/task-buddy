@@ -1,0 +1,17 @@
+.tab-list {
+    list-style: none;
+}
+
+.tab-list li {
+    font-size: 16px;
+    font-weight: 500;
+    display: inline;
+    cursor: pointer;
+    margin-right: 1rem;
+    color: grey;
+}
+
+.tab-list li.active {
+    color: black;
+    border-bottom: 2px solid black;
+}
