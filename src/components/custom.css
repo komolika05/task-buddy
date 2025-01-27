@@ -1,0 +1,36 @@
+.text-purple {
+    color: purple;
+  }
+  
+  .purple {
+    color: purple;
+  }
+
+  .black {
+    color: black;
+  }
+
+  .btn.black-btn {
+    background-color: black !important;
+    color: white !important;
+  }
+
+  .btn.black-btn:hover {
+    background-color: #333 !important;
+    color: white !important;
+  }
+  .fw-600 {
+    font-weight: 600 !important;
+  }
+  .login-description {
+    width: 600px;
+  }
+  .login-btn-box {
+    border-radius: 18px;
+    height: 59.65px;
+    width: 370px;
+    background-color: #292929 !important;
+    color: white !important;
+    font-size: 20px !important;
+    font-weight: 600 !important;
+  }
