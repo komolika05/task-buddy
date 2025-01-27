@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Login from './components/Login';
-import Profile from './components/Profile';
+import Dashboard from './components/Dashboard';
 import './utils/fontawesome';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
@@ -20,10 +20,10 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route
-            path="/profile"
+            path="/dashboard"
             element={
               <PrivateRoute>
-                <Profile />
+                <Dashboard />
               </PrivateRoute>
             }
           />

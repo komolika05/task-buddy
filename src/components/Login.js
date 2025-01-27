@@ -16,7 +16,7 @@ export default function Login() {
   async function handleGoogleSignIn() {
     try {
       await signInWithGoogle();
-      navigate('/profile');
+      navigate('/dashboard');
     } catch (error) {
       console.error('Failed to sign in:', error);
     }
