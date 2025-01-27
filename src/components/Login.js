@@ -7,6 +7,7 @@ import { faClipboardList } from '@fortawesome/free-solid-svg-icons';
 import circleBg from './assets/circles_bg.png';
 import loginImg from './assets/login-page-image.png';
 import './custom.css';
+import './login.css';
 
 export default function Login() {
   const { signInWithGoogle } = useAuth();

@@ -1,0 +1,12 @@
+.login-description {
+    width: 600px;
+  }
+  .login-btn-box {
+    border-radius: 18px;
+    height: 59.65px;
+    width: 370px;
+    background-color: #292929 !important;
+    color: white !important;
+    font-size: 20px !important;
+    font-weight: 600 !important;
+  }
