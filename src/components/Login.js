@@ -6,6 +6,7 @@ import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { faClipboardList } from '@fortawesome/free-solid-svg-icons';
 import circleBg from './assets/circles_bg.png';
 import loginImg from './assets/login-page-image.png';
+import GoogleIcon from "./assets/google-icon.png"
 import './custom.css';
 import './login.css';
 
@@ -36,9 +37,14 @@ export default function Login() {
         </div>
         <button
           onClick={handleGoogleSignIn}
-          className="btn login-btn-box ld-flex align-items-center justify-content-center"
+          className="btn login-btn-box d-flex align-items-center justify-content-center"
         >
-          <FontAwesomeIcon icon={faGoogle} className="me-2" />
+          <img 
+            src={GoogleIcon}
+            alt="Google"
+            className="me-3"
+            style={{ width: '25px', height: '25px' }}
+          />
           Sign in with Google
         </button>
       </div>
