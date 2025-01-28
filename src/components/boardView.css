@@ -1,0 +1,39 @@
+.gray-box{
+    width: 400px;
+    height: 600px;
+    background-color: #e8e3e3;
+    border-radius: 8px;
+}
+
+.todo-tag{
+    background-color: #FAC3FF;
+    color: black;
+    border-radius: 4px;
+    width: fit-content;
+    height: 30px;
+    margin-top: 10px;
+    margin-left: 10px;
+    padding: 4px 8px;
+}
+
+.in-progress-tag{
+    background-color: #85D9F1;
+    color: black;
+    border-radius: 4px;
+    width: fit-content;
+    height: 30px;
+    margin-top: 10px;
+    margin-left: 10px;
+    padding: 4px 8px;
+}
+
+.completed-tag{
+    background-color: #A2D6A0;
+    color: black;
+    border-radius: 4px;
+    width: fit-content;
+    height: 30px;
+    margin-top: 10px;
+    margin-left: 10px;
+    padding: 4px 8px;
+}

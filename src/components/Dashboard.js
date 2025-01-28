@@ -3,6 +3,8 @@ import './custom.css';
 import Header from './Header';
 import Tabs from './Tabs';
 import Filters from './Filters';
+import ListView from './ListView';
+import BoardView from './BoardView';
 
 export default function Dashboard() {
   const [selectedTab, setSelectedTab] = useState('list');
@@ -14,8 +16,8 @@ export default function Dashboard() {
         {/* Filters */}
       <Filters />
         {/* VIEW */}
-      {selectedTab === 'list' && (<div>LIST VIEW</div>)}
-      {selectedTab === 'board' && (<div>BOARD VIEW</div>)}
+      {selectedTab === 'list' && (<div><ListView /></div>)}
+      {selectedTab === 'board' && (<div><BoardView /></div>)}
     </div>
   );
 }
