@@ -1,0 +1,37 @@
+.MuiTableCell-head {
+  color: rgba(44, 40, 40, 0.6) !important;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* Remove borders from accordions */
+.MuiAccordion-root {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Todo section */
+.accordion-todo .MuiAccordionSummary-root {
+  background-color: #FAC3FF !important;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+/* In Progress section */
+.accordion-inprogress .MuiAccordionSummary-root {
+  background-color: #85D9F1 !important;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+/* Completed section */
+.accordion-completed .MuiAccordionSummary-root {
+  background-color: #A2D6A0 !important;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}           
+
+/* Remove borders between table cells */
+.MuiTableCell-root {
+  border: none !important;
+}
