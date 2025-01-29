@@ -12,7 +12,7 @@ import { updateTask } from '../../redux/slices/taskSlice';
 
 function ListItem({ id, task }) {
     const dispatch = useDispatch();
-    
+
     const {
         attributes,
         listeners,
@@ -29,17 +29,16 @@ function ListItem({ id, task }) {
     const statusOptions = [{ label: "To-Do", value: "todo" }, { label: "In Progress", value: "inProgress" }, { label: "Completed", value: "completed" }];
 
     function handleStatusChange(newStatus) {
-        console.log("NEW STATUS",newStatus);
-        // Update the task status in the Redux store
         dispatch(updateTask({ id, status: newStatus }));
     }
     return (
         <TableRow
-            ref={setNodeRef} style={style} {...attributes} {...listeners}
+            ref={setNodeRef} style={style}
             key={task.id}
             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            onClick={() => {handleStatusChange("inprogress") }}
         >
+            {/* !IMPORTANT: keep listeners separate from TableRow, they hinder with other TableRow oncclick listeners (like dropdown item)*/}
+            <TableCell  {...listeners} {...attributes}>DRAGGGG</TableCell>
             <TableCell>{task.title}</TableCell>
             <TableCell>
                 {task.dueDate ? new Date(task.dueDate).toLocaleDateString() : '-'}
@@ -53,13 +52,15 @@ function ListItem({ id, task }) {
                         data-bs-toggle="dropdown"
                         aria-expanded="false"
                     >
-                        Category
+                        {statusOptions.find(option => option.value === task.status)?.label || "Status"}
                     </button>
                     <ul className="dropdown-menu" aria-labelledby="categoryDropdown">
                         {statusOptions.map((option) => (
-                            <li key={option.value} onClick={() => handleStatusChange(option.value)}>
+                            <li key={option.value} onClick={(e) => {
+                                handleStatusChange(option.value)
+                            }}>
                                 <button
-                                    className="dropdown-item"
+                                    className={`dropdown-item ${option.value === task.status ? 'selected' : ''}`}
                                 >
                                     {option.label}
                                 </button>
@@ -67,14 +68,6 @@ function ListItem({ id, task }) {
                         ))}
                     </ul>
                 </div>
-                {/* <Chip
-            label={task.status}
-            color={
-              task.status === 'Completed' ? 'success' :
-              task.status === 'In Progress' ? 'warning' : 'default'
-            }
-            size="small"
-          /> */}
             </TableCell>
             <TableCell>
                 <Chip

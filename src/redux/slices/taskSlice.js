@@ -15,7 +15,7 @@ const initialState = {
       id: '2',
       title: 'This is a sample in-progress task',
       category: 'Personal',
-      status: 'inprogress',
+      status: 'inProgress',
       createdAt: new Date().toISOString(),
       order: 0,
     },
@@ -46,7 +46,7 @@ const initialState = {
     },
   ],
   categories: ['Work', 'Personal'],
-  statuses: ['ToDo', 'In-Progress', 'Completed'],
+  statuses: ['todo', 'inProgress', 'completed'],
 };
 
 const taskSlice = createSlice({
