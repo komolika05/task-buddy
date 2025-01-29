@@ -1,11 +1,21 @@
-import react, { useState } from "react";
+import React, { useState } from "react";
 import './custom.css';
 import './filters.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import AddTaskModal from "./AddTaskModal/AddTaskModal";
 
-export default function Filters() {
-    const [selectedCategory, setSelectedCategory] = useState('All');
+export default function Filters({selectedCategory = "All"}) {
+    const [isAddTaskModalOpen, setIsAddTaskModalOpen] = useState(false);
+
+    const handleOpenAddTaskModal = () => {
+        setIsAddTaskModalOpen(true);
+    };
+
+    const handleCloseAddTaskModal = () => {
+        setIsAddTaskModalOpen(false);
+    };
+
     return (
         <div className="px-4">
             <div className="d-flex flex-row align-items-center justify-content-between">
@@ -48,7 +58,6 @@ export default function Filters() {
                     </div>
 
                     {/* Due Date Dropdown */}
-
                     <div className="dropdown ms-2">
                         <button 
                             className="btn dropdown-btn dropdown-toggle d-flex align-items-center" 
@@ -98,13 +107,21 @@ export default function Filters() {
                             />
                         </div>
                         <div>
-                            <button className="btn purple-btn ms-2">
+                            <button 
+                                className="btn purple-btn ms-2"
+                                onClick={handleOpenAddTaskModal}
+                            >
                                 ADD TASK
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
+
+            {/* Add Task Modal */}
+            {isAddTaskModalOpen && (
+                <AddTaskModal onClose={handleCloseAddTaskModal} />
+            )}
         </div>
     );
 }

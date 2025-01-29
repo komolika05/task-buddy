@@ -54,11 +54,14 @@ const taskSlice = createSlice({
   initialState,
   reducers: {
     addTask: (state, action) => {
-      state.tasks.push({
+      const newTask = {
         id: Date.now().toString(),
         ...action.payload,
         createdAt: new Date().toISOString(),
-      });
+        order: state.tasks.filter(task => task.status === action.payload.status).length,
+      };
+      
+      state.tasks.push(newTask);
     },
     updateTask: (state, action) => {
       const { id, ...updates } = action.payload;
