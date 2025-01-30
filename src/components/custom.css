@@ -39,11 +39,24 @@
     background-color: #7B1984 !important;
     color: white !important;
     border-radius: 41px !important;
-    width: 152px;
+    width: fit-content;
+    padding: 4px 28px !important;
     height: 48px;
+    border: none !important;
   }
 
   .purple-btn:hover {
     background-color: #7e0057 !important;
     color: white !important;
+  }
+
+  .white-btn {
+    background-color: #fff !important;
+    color: #333 !important;
+    border-radius: 41px !important;
+    width: fit-content;
+    padding: 4px 28px !important;
+    height: 48px;
+    font-weight: 600 !important;
+    border: 1px solid #333 !important
   }
