@@ -9,6 +9,9 @@
   .black {
     color: black;
   }
+  .gray{
+    color: darkgray;
+  }
 
   .btn.black-btn {
     background-color: black !important;
