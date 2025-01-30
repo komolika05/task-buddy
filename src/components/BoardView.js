@@ -1,4 +1,4 @@
-import react, { useState } from "react";
+import React from "react";
 import './custom.css';
 import './boardView.css';
 import { useSelector, useDispatch } from 'react-redux';
@@ -7,6 +7,7 @@ import { openEditModal, deleteTask } from '../redux/slices/taskSlice';
 export default function BoardView() {
     const dispatch = useDispatch();
     const tasks = useSelector((state) => state.tasks.tasks);
+    const searchQuery = useSelector((state) => state.tasks.searchQuery);
 
     const statuses = ['todo', 'inProgress', 'completed'];
 
@@ -18,14 +19,23 @@ export default function BoardView() {
         dispatch(deleteTask(taskId));
     };
 
+    const filterTasksByStatusAndSearch = (status) => {
+        return tasks.filter(task => 
+            task.status === status && 
+            task.title.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+    };
+
     return (
         <div className="d-flex flex-row p-3">
             {
                 statuses.map(status => (
                     <div key={status} className="gray-box me-3 p-2">
-                        <div className={`${status}-tag text-center mb-3`}>{status.toUpperCase()}</div>
+                        <div className={`${status}-tag text-center mb-3`}>
+                            {status.toUpperCase()} ({filterTasksByStatusAndSearch(status).length})
+                        </div>
                         {
-                            tasks.filter(task => task.status === status).map(task => (
+                            filterTasksByStatusAndSearch(status).map(task => (
                                 <div 
                                     key={task.id} 
                                     className="card mb-2 d-flex flex-column justify-content-between"

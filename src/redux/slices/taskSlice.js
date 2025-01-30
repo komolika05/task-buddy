@@ -56,7 +56,8 @@ const initialState = {
   editModal: {
     isOpen: false,
     taskId: null
-  }
+  },
+  searchQuery: ''
 };
 
 const createActivityLogEntry = (action, details = {}) => ({
@@ -175,6 +176,12 @@ const taskSlice = createSlice({
     closeEditModal: (state) => {
       state.editModal.isOpen = false;
       state.editModal.taskId = null;
+    },
+    setSearchQuery: (state, action) => {
+      state.searchQuery = action.payload;
+    },
+    clearSearchQuery: (state) => {
+      state.searchQuery = '';
     }
   },
 });
@@ -185,6 +192,8 @@ export const {
   deleteTask, 
   reorderTasks, 
   openEditModal, 
-  closeEditModal 
+  closeEditModal,
+  setSearchQuery,
+  clearSearchQuery
 } = taskSlice.actions;
 export default taskSlice.reducer;

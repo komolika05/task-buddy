@@ -1,5 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { 
+  deleteTask, 
+  reorderTasks 
+} from '../redux/slices/taskSlice';
 import {
   Table,
   TableBody,
@@ -36,12 +40,12 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 
-import { reorderTasks, deleteTask, updateTask } from '../redux/slices/taskSlice';
+import { updateTask } from '../redux/slices/taskSlice';
 
 export default function ListView() {
-  const { tasks } = useSelector((state) => state.tasks);
   const dispatch = useDispatch();
-
+  const tasks = useSelector((state) => state.tasks.tasks);
+  const searchQuery = useSelector((state) => state.tasks.searchQuery);
   const [expanded, setExpanded] = useState('todo');
   const [selectedTasks, setSelectedTasks] = useState([]);
   const [showStatusChangeMenu, setShowStatusChangeMenu] = useState(false);
@@ -66,8 +70,12 @@ export default function ListView() {
   };
 
   const filterAndSortTasksByStatus = (status) => {
-    const res = tasks.filter(task => task.status.toLowerCase() === status).sort((a, b) => a.order - b.order);
-    return res;
+    return tasks
+      .filter(task => 
+        task.status.toLowerCase() === status && 
+        task.title.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+      .sort((a, b) => a.order - b.order);
   };
 
   const handleTaskSelect = (taskId) => {
@@ -139,30 +147,33 @@ export default function ListView() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {accordionSections.map((section) => (
-              <TableRow key={section.id}>
-                <TableCell colSpan={5} style={{ padding: 0 }}>
-                  <Accordion
-                    expanded={true}
-                    onChange={handleAccordionChange(section.id)}
-                    className={`accordion-${section.id}`}
-                  >
-                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                      <Typography sx={{ fontWeight: 'bold' }}>
-                        {section.label} ({filterAndSortTasksByStatus(section.status).length})
-                      </Typography>
-                    </AccordionSummary>
-                    <AccordionDetails sx={{ padding: 0 }}>
-                      <Table>
-                        <TableBody>
-                          {renderTaskRows(filterAndSortTasksByStatus(section.status))}
-                        </TableBody>
-                      </Table>
-                    </AccordionDetails>
-                  </Accordion>
-                </TableCell>
-              </TableRow>
-            ))}
+            {accordionSections.map((section) => {
+              const filteredTasks = filterAndSortTasksByStatus(section.status);
+              return filteredTasks.length > 0 ? (
+                <TableRow key={section.id}>
+                  <TableCell colSpan={5} style={{ padding: 0 }}>
+                    <Accordion
+                      expanded={true}
+                      onChange={handleAccordionChange(section.id)}
+                      className={`accordion-${section.id}`}
+                    >
+                      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                        <Typography sx={{ fontWeight: 'bold' }}>
+                          {section.label} ({filteredTasks.length})
+                        </Typography>
+                      </AccordionSummary>
+                      <AccordionDetails sx={{ padding: 0 }}>
+                        <Table>
+                          <TableBody>
+                            {renderTaskRows(filteredTasks)}
+                          </TableBody>
+                        </Table>
+                      </AccordionDetails>
+                    </Accordion>
+                  </TableCell>
+                </TableRow>
+              ) : null;
+            })}
           </TableBody>
         </Table>
       </TableContainer>

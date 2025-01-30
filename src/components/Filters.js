@@ -1,11 +1,15 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from 'react-redux';
 import './custom.css';
 import './filters.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import AddTaskModal from "./AddTaskModal/AddTaskModal";
+import { setSearchQuery, clearSearchQuery } from '../redux/slices/taskSlice';
 
 export default function Filters({selectedCategory = "All"}) {
+    const dispatch = useDispatch();
+    const searchQuery = useSelector((state) => state.tasks.searchQuery);
     const [isAddTaskModalOpen, setIsAddTaskModalOpen] = useState(false);
 
     const handleOpenAddTaskModal = () => {
@@ -14,6 +18,14 @@ export default function Filters({selectedCategory = "All"}) {
 
     const handleCloseAddTaskModal = () => {
         setIsAddTaskModalOpen(false);
+    };
+
+    const handleSearchChange = (e) => {
+        dispatch(setSearchQuery(e.target.value));
+    };
+
+    const handleClearSearch = () => {
+        dispatch(clearSearchQuery());
     };
 
     return (
@@ -104,7 +116,23 @@ export default function Filters({selectedCategory = "All"}) {
                                 className="form-control search-input"
                                 placeholder="Search"
                                 aria-label="Search tasks"
+                                value={searchQuery}
+                                onChange={handleSearchChange}
                             />
+                            {searchQuery && (
+                                <button 
+                                    className="btn btn-link clear-search-btn" 
+                                    onClick={handleClearSearch}
+                                    style={{
+                                        position: 'absolute', 
+                                        right: '10px', 
+                                        top: '50%', 
+                                        transform: 'translateY(-50%)'
+                                    }}
+                                >
+                                    ×
+                                </button>
+                            )}
                         </div>
                         <div>
                             <button 
