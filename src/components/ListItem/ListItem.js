@@ -7,10 +7,11 @@ import {
     TableCell,
     TableRow,
     Chip,
+    Checkbox,
 } from '@mui/material';
 import { updateTask, openEditModal } from '../../redux/slices/taskSlice';
 
-function ListItem({ id, task }) {
+function ListItem({ id, task, isSelected, onSelect }) {
     const dispatch = useDispatch();
 
     const {
@@ -46,9 +47,17 @@ function ListItem({ id, task }) {
         <TableRow
             ref={setNodeRef} style={style}
             key={task.id}
-            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            sx={{ 
+                '&:last-child td, &:last-child th': { border: 0 },
+                backgroundColor: isSelected ? 'rgba(0, 0, 255, 0.1)' : 'transparent'
+            }}
         >
-            {/* !IMPORTANT: keep listeners separate from TableRow, they hinder with other TableRow oncclick listeners (like dropdown item)*/}
+            <TableCell>
+                <Checkbox 
+                    checked={isSelected} 
+                    onChange={onSelect}
+                />
+            </TableCell>
             <TableCell  {...listeners} {...attributes}><i className="fas fa-grip-vertical gray"></i></TableCell>
             <TableCell>{task.title}</TableCell>
             <TableCell>
