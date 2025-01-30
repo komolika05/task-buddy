@@ -47,6 +47,10 @@ const initialState = {
   ],
   categories: ['Work', 'Personal'],
   statuses: ['todo', 'inProgress', 'completed'],
+  editModal: {
+    isOpen: false,
+    taskId: null
+  }
 };
 
 const taskSlice = createSlice({
@@ -108,8 +112,23 @@ const taskSlice = createSlice({
           : task
       );
     },
+    openEditModal: (state, action) => {
+      state.editModal.isOpen = true;
+      state.editModal.taskId = action.payload;
+    },
+    closeEditModal: (state) => {
+      state.editModal.isOpen = false;
+      state.editModal.taskId = null;
+    }
   },
 });
 
-export const { addTask, updateTask, deleteTask, reorderTasks } = taskSlice.actions;
+export const { 
+  addTask, 
+  updateTask, 
+  deleteTask, 
+  reorderTasks, 
+  openEditModal, 
+  closeEditModal 
+} = taskSlice.actions;
 export default taskSlice.reducer;

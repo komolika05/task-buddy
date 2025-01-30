@@ -8,7 +8,7 @@ import {
     TableRow,
     Chip,
 } from '@mui/material';
-import { updateTask } from '../../redux/slices/taskSlice';
+import { updateTask, openEditModal } from '../../redux/slices/taskSlice';
 
 function ListItem({ id, task }) {
     const dispatch = useDispatch();
@@ -31,6 +31,17 @@ function ListItem({ id, task }) {
     function handleStatusChange(newStatus) {
         dispatch(updateTask({ id, status: newStatus }));
     }
+
+    function handleEditTask() {
+        dispatch(openEditModal(id));
+    }
+
+    function handleDeleteTask() {
+        if (window.confirm("Are you sure you want to delete this task?")) {
+            dispatch(updateTask({ id, status: "deleted" }));
+        }
+    }
+
     return (
         <TableRow
             ref={setNodeRef} style={style}
@@ -75,6 +86,38 @@ function ListItem({ id, task }) {
                     variant="outlined"
                     size="small"
                 />
+            </TableCell>
+            <TableCell>
+                <div className="dropdown ms-2">
+                    <button
+                        className="btn dropdown-btn d-flex align-items-center"
+                        type="button"
+                        id="actionDropdown"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                    >
+                        <i className="fas fa-ellipsis-v gray"></i>
+                    </button>
+                    <ul className="dropdown-menu" aria-labelledby="actionDropdown">
+                        <li>
+                            <button
+                                className="dropdown-item"
+                                onClick={handleEditTask}
+                            >
+                                Edit
+                            </button>
+                        </li>
+                        <li>
+                            <button
+                                className="dropdown-item"
+                                onClick={handleDeleteTask}
+                            >
+                                Delete
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+
             </TableCell>
         </TableRow>
     )
