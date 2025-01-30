@@ -38,7 +38,7 @@ function ListItem({ id, task }) {
             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
         >
             {/* !IMPORTANT: keep listeners separate from TableRow, they hinder with other TableRow oncclick listeners (like dropdown item)*/}
-            <TableCell  {...listeners} {...attributes}>DRAGGGG</TableCell>
+            <TableCell  {...listeners} {...attributes}><i className="fas fa-grip-vertical gray"></i></TableCell>
             <TableCell>{task.title}</TableCell>
             <TableCell>
                 {task.dueDate ? new Date(task.dueDate).toLocaleDateString() : '-'}
