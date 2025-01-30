@@ -4,14 +4,16 @@ import { addTask } from '../../redux/slices/taskSlice';
 import './style.css';
 import '../custom.css';
 
+const defaultTask = {
+    title: '',
+    category: 'work',
+    dueDate: '',
+    status: 'todo'
+}
+
 function AddTaskModal({ onClose }) {
     const dispatch = useDispatch();
-    const [newTask, setNewTask] = useState({
-        title: '',
-        category: '',
-        dueDate: '',
-        status: 'todo'
-    });
+    const [newTask, setNewTask] = useState(defaultTask);
 
     const handleInputChange = (e) => {
         const { id, value } = e.target;
@@ -25,21 +27,23 @@ function AddTaskModal({ onClose }) {
         e.preventDefault();
 
         dispatch(addTask(newTask));
-        
-        setNewTask({
-            title: '',
-            category: '',
-            dueDate: '',
-            status: 'todo'
-        });
+
+        setNewTask(defaultTask);
 
         // Close the modal
         onClose();
     };
 
+    function handleCategoryChange(category) {
+        setNewTask(prevTask => ({
+            ...prevTask,
+            category
+        }));
+    }
+
     return (
-        <div className="modal" tabIndex="-1" style={{ display: 'block', backgroundColor: 'rgba(0,0,0,0.5)'}}>
-            <div className="modal-dialog" style={{ minWidth: '670px' , minHeight: '690px'}}>
+        <div className="modal" tabIndex="-1" style={{ display: 'block', backgroundColor: 'rgba(0,0,0,0.5)' }}>
+            <div className="modal-dialog" style={{ minWidth: '670px', minHeight: '690px' }}>
                 <div className="modal-content">
                     <div className="modal-header">
                         <h5 className="modal-title">Create Task</h5>
@@ -57,7 +61,7 @@ function AddTaskModal({ onClose }) {
                                         type="text"
                                         className="form-control"
                                         id="title"
-                                            placeholder="Enter task title"
+                                        placeholder="Enter task title"
                                         value={newTask.title}
                                         onChange={handleInputChange}
                                         required
@@ -78,10 +82,10 @@ function AddTaskModal({ onClose }) {
                                         <label className="text-gray mb-2">Task Category</label>
                                         <div className="d-flex flex-row">
                                             <div>
-                                                <button className="btn white-btn me-2 category-btn">Work</button>
+                                                <button className={`btn white-btn me-2 category-btn ${newTask.category === 'work' ? 'active' : ''}`} onClick={() => handleCategoryChange('work')}>Work</button>
                                             </div>
                                             <div>
-                                                <button className="btn white-btn category-btn">Personal</button>
+                                                <button className={`btn white-btn category-btn ${newTask.category === 'personal' ? 'active' : ''}`} onClick={() => handleCategoryChange('personal')}>Personal</button>
                                             </div>
                                         </div>
                                     </div>
@@ -111,8 +115,8 @@ function AddTaskModal({ onClose }) {
                                 </div>
                                 <div>
                                     <label className="text-gray mb-1">Attachment</label>
-                                    <input 
-                                        type="file" 
+                                    <input
+                                        type="file"
                                         className="form-control"
                                         id="attachment"
                                         onChange={(e) => setNewTask(prevTask => ({
@@ -123,8 +127,8 @@ function AddTaskModal({ onClose }) {
                                 </div>
                             </div>
                             <div className="modal-footer">
-                                <button 
-                                    type="button" 
+                                <button
+                                    type="button"
                                     className="btn btn-secondary white-btn"
                                     onClick={onClose}
                                 >
@@ -137,7 +141,7 @@ function AddTaskModal({ onClose }) {
                 </div>
             </div>
         </div>
-    ); 
+    );
 }
 
 export default AddTaskModal;
