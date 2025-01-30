@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { v4 as uuidv4 } from 'uuid';
 
 const initialState = {
   tasks: [
@@ -10,6 +11,7 @@ const initialState = {
       status: 'todo',
       createdAt: new Date().toISOString(),
       order: 0,
+      activityLog: []
     },
     {
       id: '2',
@@ -18,6 +20,7 @@ const initialState = {
       status: 'inProgress',
       createdAt: new Date().toISOString(),
       order: 0,
+      activityLog: []
     },
     {
       id: '3',
@@ -25,7 +28,8 @@ const initialState = {
       category: 'Personal',
       status: 'completed',
       createdAt: new Date().toISOString(),
-      order: 0
+      order: 0,
+      activityLog: []
     },
     {
       id: '4',
@@ -33,7 +37,8 @@ const initialState = {
       category: 'Personal',
       status: 'todo',
       createdAt: new Date().toISOString(),
-      order: 1
+      order: 1,
+      activityLog: []
     },
     {
       id: '5',
@@ -43,6 +48,7 @@ const initialState = {
       status: 'todo',
       createdAt: new Date().toISOString(),
       order: 3,
+      activityLog: []
     },
   ],
   categories: ['Work', 'Personal'],
@@ -52,6 +58,13 @@ const initialState = {
     taskId: null
   }
 };
+
+const createActivityLogEntry = (action, details = {}) => ({
+  id: uuidv4(),
+  timestamp: new Date().toISOString(),
+  action,
+  ...details
+});
 
 const taskSlice = createSlice({
   name: 'tasks',
@@ -63,6 +76,11 @@ const taskSlice = createSlice({
         ...action.payload,
         createdAt: new Date().toISOString(),
         order: state.tasks.filter(task => task.status === action.payload.status).length,
+        activityLog: [
+          createActivityLogEntry('created', { 
+            taskDetails: { ...action.payload } 
+          })
+        ]
       };
       
       state.tasks.push(newTask);
@@ -70,16 +88,53 @@ const taskSlice = createSlice({
     updateTask: (state, action) => {
       const { id, ...updates } = action.payload;
       const taskIndex = state.tasks.findIndex(task => task.id === id);
+      
       if (taskIndex !== -1) {
-        state.tasks[taskIndex] = { ...state.tasks[taskIndex], ...updates, updatedAt: new Date().toISOString() };
+        const oldTask = state.tasks[taskIndex];
+        const updatedTask = { 
+          ...oldTask, 
+          ...updates, 
+          updatedAt: new Date().toISOString() 
+        };
+
+        // Create activity log entry for changes
+        const changedFields = Object.keys(updates).filter(
+          key => oldTask[key] !== updates[key]
+        );
+
+        const activityDetails = changedFields.reduce((acc, field) => {
+          acc[field] = {
+            from: oldTask[field],
+            to: updates[field]
+          };
+          return acc;
+        }, {});
+
+        updatedTask.activityLog = [
+          ...oldTask.activityLog,
+          createActivityLogEntry('updated', { 
+            changes: activityDetails 
+          })
+        ];
+
+        state.tasks[taskIndex] = updatedTask;
       }
-
-      // handle order of old tasks
-
-      // push ordering of newly updated task to new groups last order
     },
     deleteTask: (state, action) => {
-      state.tasks = state.tasks.filter(task => task.id !== action.payload);
+      const taskIndex = state.tasks.findIndex(task => task.id === action.payload);
+      
+      if (taskIndex !== -1) {
+        const deletedTask = state.tasks[taskIndex];
+        
+        // Log the deletion
+        deletedTask.activityLog.push(
+          createActivityLogEntry('deleted', {
+            taskDetails: { ...deletedTask }
+          })
+        );
+
+        state.tasks = state.tasks.filter(task => task.id !== action.payload);
+      }
     },
     reorderTasks: (state, action) => {
       const { sourceId, sourceIndex, destinationIndex } = action.payload;
@@ -103,14 +158,15 @@ const taskSlice = createSlice({
       // Recalculate the order for all tasks with the same status
       tasksWithSameStatus.forEach((task, index) => {
         task.order = index;
-      });
 
-      // Update the state with the reordered tasks
-      state.tasks = state.tasks.map(task =>
-        task.status === targetStatus
-          ? tasksWithSameStatus.find(t => t.id === task.id) || task
-          : task
-      );
+        // Log the reordering
+        task.activityLog.push(
+          createActivityLogEntry('reordered', {
+            oldIndex: sourceIndex,
+            newIndex: destinationIndex
+          })
+        );
+      });
     },
     openEditModal: (state, action) => {
       state.editModal.isOpen = true;
