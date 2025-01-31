@@ -13,6 +13,10 @@
     color: darkgray;
   }
 
+  .red{
+    color: red !important;
+  }
+
   .btn.black-btn {
     background-color: black !important;
     color: white !important;
@@ -59,4 +63,10 @@
     height: 48px;
     font-weight: 600 !important;
     border: 1px solid #333 !important
+  }
+
+  .actions-btn {
+    background-color: #fff !important;
+    color: #333 !important;
+    border: none !important;
   }

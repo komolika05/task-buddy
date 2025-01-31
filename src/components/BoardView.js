@@ -44,7 +44,7 @@ export default function BoardView() {
                                         <strong>{task.title}</strong>
                                         <div className="dropdown ms-2">
                                             <button
-                                                className="btn dropdown-btn d-flex align-items-center"
+                                                className="actions-btn d-flex align-items-center"
                                                 type="button"
                                                 id="actionDropdown"
                                                 data-bs-toggle="dropdown"
@@ -58,14 +58,16 @@ export default function BoardView() {
                                                         className="dropdown-item"
                                                         onClick={() => handleEditTask(task.id)}
                                                     >
+                                                        <i class="fa-solid fa-pen me-1"></i>
                                                         Edit
                                                     </button>
                                                 </li>
                                                 <li>
                                                     <button
-                                                        className="dropdown-item"
+                                                        className="dropdown-item red"
                                                         onClick={() => handleDeleteTask(task.id)}
                                                     >
+                                                        <i class="fa-solid fa-trash-can me-1"></i>
                                                         Delete
                                                     </button>
                                                 </li>
