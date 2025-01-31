@@ -10,3 +10,62 @@
     font-size: 20px !important;
     font-weight: 600 !important;
   }
+  .mobile-content-box{
+    margin-left: 20px;
+  }
+  .login-image-container{
+    z-index: 1; 
+    top: 0; 
+    right: 0 
+  }
+
+@media (max-width: 1200px) {
+  .login-description {
+    width: 500px;
+  }
+}
+
+@media (max-width: 992px) {
+  .login-description {
+    width: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  .login-description {
+    width: 100%;
+    max-width: 350px;
+  }
+
+  .login-btn-box {
+    width: 100%;
+    max-width: 350px;
+  }
+}
+
+@media (max-width: 576px) {
+  .container-fluid {
+    padding-right: 15px !important;
+  }
+
+  .mobile-content-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center !important;
+    text-align: center;
+    width: 100%;
+    margin-left: 0px !important;
+  }
+
+  .login-description {
+    text-align: center;
+  }
+
+  .login-btn-box {
+    margin: 20px auto;
+  }
+  .login-image-container{
+    display: none;
+  }
+}

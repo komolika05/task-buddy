@@ -25,7 +25,7 @@ export default function Login() {
 
   return (
     <div className="container-fluid min-vh-100 d-flex align-items-center justify-content-start bg-light position-relative">
-      <div className="d-flex flex-column align-items-start ms-5">
+      <div className="mobile-content-box d-flex flex-column align-items-start">
         <div className="mb-4">
           <h2 className="display-6 text-purple fw-600">
             <FontAwesomeIcon icon={faClipboardList} className="purple me-2"/>            
@@ -48,7 +48,7 @@ export default function Login() {
           Sign in with Google
         </button>
       </div>
-      <div className="position-absolute" style={{ zIndex: 1, top: 0, right: 0 }}>
+      <div className="login-image-container position-absolute" style={{ zIndex: 1, top: 0, right: 0 }}>
         <img
           src={circleBg}
           alt="Login"
