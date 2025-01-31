@@ -96,10 +96,10 @@ const EditTaskModal = ({ task }) => {
                   <label className="text-gray mb-2">Category</label>
                   <div className="d-flex flex-row">
                       <div>
-                          <button className={`btn white-btn me-2 category-btn ${editedTask.category === 'Work' ? 'active' : ''}`} onClick={() => handleInputChange({target: {id: 'category', value: 'work'}})}>Work</button>
+                          <button className={`btn white-btn me-2 category-btn ${editedTask.category === 'work' ? 'active' : ''}`} onClick={() => handleInputChange({target: {id: 'category', value: 'work'}})}>Work</button>
                       </div>
                       <div>
-                          <button className={`btn white-btn category-btn ${editedTask.category === 'Personal' ? 'active' : ''}`} onClick={() => handleInputChange({target: {id: 'category', value: 'personal'}})}>Personal</button>
+                          <button className={`btn white-btn category-btn ${editedTask.category === 'personal' ? 'active' : ''}`} onClick={() => handleInputChange({target: {id: 'category', value: 'personal'}})}>Personal</button>
                       </div>
                   </div>
                 </div>

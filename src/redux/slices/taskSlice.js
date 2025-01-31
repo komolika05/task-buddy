@@ -7,7 +7,7 @@ const initialState = {
       id: '1',
       title: 'Welcome to ToDo!',
       description: 'This is a sample task. You can edit it by clicking on it.',
-      category: 'Personal',
+      category: 'work',
       status: 'todo',
       createdAt: new Date().toISOString(),
       order: 0,
@@ -16,7 +16,7 @@ const initialState = {
     {
       id: '2',
       title: 'This is a sample in-progress task',
-      category: 'Personal',
+      category: 'personal',
       status: 'inProgress',
       createdAt: new Date().toISOString(),
       order: 0,
@@ -25,7 +25,7 @@ const initialState = {
     {
       id: '3',
       title: 'This is a sample completed task',
-      category: 'Personal',
+      category: 'work',
       status: 'completed',
       createdAt: new Date().toISOString(),
       order: 0,
@@ -34,7 +34,7 @@ const initialState = {
     {
       id: '4',
       title: 'This is a sample todo task',
-      category: 'Personal',
+      category: 'personal',
       status: 'todo',
       createdAt: new Date().toISOString(),
       order: 1,
@@ -44,14 +44,14 @@ const initialState = {
       id: '5',
       title: 'Task 3 TODO',
       description: 'This is a sample task. You can edit it by clicking on it.',
-      category: 'Personal',
+      category: 'personal',
       status: 'todo',
       createdAt: new Date().toISOString(),
       order: 3,
       activityLog: []
     },
   ],
-  categories: ['Work', 'Personal'],
+  categories: ['work', 'personal'],
   statuses: ['todo', 'inProgress', 'completed'],
   editModal: {
     isOpen: false,
