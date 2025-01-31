@@ -2,7 +2,8 @@ import React, { useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { 
   deleteTask, 
-  reorderTasks 
+  reorderTasks,
+  updateTask 
 } from '../redux/slices/taskSlice';
 import {
   Table,
@@ -12,7 +13,6 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Chip,
   Accordion,
   AccordionSummary,
   AccordionDetails,
@@ -26,11 +26,12 @@ import MultiTaskSelectFloater from './MultiTaskSelectFloater';
 // For sortable functionality
 import {
   DndContext,
-  closestCenter,
   KeyboardSensor,
   PointerSensor,
   useSensor,
   useSensors,
+  DragOverlay,
+  rectIntersection,
 } from '@dnd-kit/core';
 import {
   arrayMove,
@@ -38,8 +39,6 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
-
-import { updateTask } from '../redux/slices/taskSlice';
 
 export default function ListView() {
   const dispatch = useDispatch();
@@ -49,6 +48,7 @@ export default function ListView() {
   const dueDateFilter = useSelector((state) => state.tasks.dueDateFilter);
   const [expanded, setExpanded] = useState('todo');
   const [selectedTasks, setSelectedTasks] = useState([]);
+  const [activeTask, setActiveTask] = useState(null);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -57,11 +57,35 @@ export default function ListView() {
     })
   );
 
+  function handleDragStart(event) {
+    const { active } = event;
+    const task = tasks.find(t => t.id === active.id);
+    setActiveTask(task);
+  }
+
   function handleDragEnd(event) {
     const { active, over } = event;
+    setActiveTask(null);
 
-    if (active.id !== over.id) {
-      dispatch(reorderTasks({ sourceId: active.id, destinationId: over.id, sourceIndex: active.data.current.sortable.index, destinationIndex: over.data.current.sortable.index }));
+    if (over && active.id !== over.id) {
+      const sourceTask = tasks.find(task => task.id === active.id);
+      const destinationTask = tasks.find(task => task.id === over.id);
+
+      if (sourceTask && destinationTask) {
+        if (sourceTask.status !== destinationTask.status) {
+          dispatch(updateTask({ 
+            id: sourceTask.id, 
+            status: destinationTask.status 
+          }));
+        } else {
+          dispatch(reorderTasks({ 
+            sourceId: active.id, 
+            destinationId: over.id, 
+            sourceIndex: active.data.current.sortable.index, 
+            destinationIndex: over.data.current.sortable.index 
+          }));
+        }
+      }
     }
   }
 
@@ -120,26 +144,21 @@ export default function ListView() {
 
   const renderTaskRows = (filteredTasks) => {
     return (
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragEnd={handleDragEnd}
+      <SortableContext
+        items={filteredTasks.map(task => task.id)}
+        strategy={verticalListSortingStrategy}
       >
-        <SortableContext
-          items={filteredTasks}
-          strategy={verticalListSortingStrategy}
-        >
-          {filteredTasks.map((task) => (
-            <ListItem 
-              id={task.id} 
-              key={task.id} 
-              task={task} 
-              isSelected={selectedTasks.includes(task.id)}
-              onSelect={() => handleTaskSelect(task.id)}
-            />
-          ))}
-        </SortableContext>
-      </DndContext>);
+        {filteredTasks.map((task) => (
+          <ListItem 
+            id={task.id} 
+            key={task.id} 
+            task={task} 
+            isSelected={selectedTasks.includes(task.id)}
+            onSelect={() => handleTaskSelect(task.id)}
+          />
+        ))}
+      </SortableContext>
+    );
   };
 
   const accordionSections = [
@@ -150,48 +169,65 @@ export default function ListView() {
 
   return (
     <div className="mt-3 px-2 position-relative">
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="tasks table">
-          <TableHead>
-            <TableRow>
-              <TableCell></TableCell>
-              <TableCell><strong>Task Name</strong></TableCell>
-              <TableCell><strong>Due On</strong></TableCell>
-              <TableCell><strong>Task Status</strong></TableCell>
-              <TableCell><strong>Task Category</strong></TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {accordionSections.map((section) => {
-              const filteredTasks = filterAndSortTasksByStatus(section.status);
-              return filteredTasks.length > 0 ? (
-                <TableRow key={section.id}>
-                  <TableCell colSpan={5} style={{ padding: 0 }}>
-                    <Accordion
-                      expanded={true}
-                      onChange={handleAccordionChange(section.id)}
-                      className={`accordion-${section.id}`}
-                    >
-                      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                        <Typography sx={{ fontWeight: 'bold' }}>
-                          {section.label} ({filteredTasks.length})
-                        </Typography>
-                      </AccordionSummary>
-                      <AccordionDetails sx={{ padding: 0 }}>
-                        <Table>
-                          <TableBody>
-                            {renderTaskRows(filteredTasks)}
-                          </TableBody>
-                        </Table>
-                      </AccordionDetails>
-                    </Accordion>
-                  </TableCell>
-                </TableRow>
-              ) : null;
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <DndContext
+        sensors={sensors}
+        collisionDetection={rectIntersection}
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
+      >
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="tasks table">
+            <TableHead>
+              <TableRow>
+                <TableCell></TableCell>
+                <TableCell><strong>Task Name</strong></TableCell>
+                <TableCell><strong>Due On</strong></TableCell>
+                <TableCell><strong>Task Status</strong></TableCell>
+                <TableCell><strong>Task Category</strong></TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {accordionSections.map((section) => {
+                const filteredTasks = filterAndSortTasksByStatus(section.status);
+                return filteredTasks.length > 0 ? (
+                  <TableRow key={section.id}>
+                    <TableCell colSpan={5} style={{ padding: 0 }}>
+                      <Accordion
+                        expanded={true}
+                        onChange={handleAccordionChange(section.id)}
+                        className={`accordion-${section.id}`}
+                      >
+                        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                          <Typography sx={{ fontWeight: 'bold' }}>
+                            {section.label} ({filteredTasks.length})
+                          </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails sx={{ padding: 0 }}>
+                          <Table>
+                            <TableBody>
+                              {renderTaskRows(filteredTasks, section.status)}
+                            </TableBody>
+                          </Table>
+                        </AccordionDetails>
+                      </Accordion>
+                    </TableCell>
+                  </TableRow>
+                ) : null;
+              })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+
+        <DragOverlay>
+          {activeTask ? (
+            <ListItem 
+              id={activeTask.id} 
+              task={activeTask} 
+              isDragging 
+            />
+          ) : null}
+        </DragOverlay>
+      </DndContext>
 
       <MultiTaskSelectFloater 
         selectedTasks={selectedTasks} 
