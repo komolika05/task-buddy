@@ -80,19 +80,21 @@ export default function MultiTaskSelectFloater({
           >
             <div className="floating-badge p-2 rounded-pill shadow">
               <div className="d-flex gap-2 align-items-center">
-                <Typography variant="body2" sx={{ mr: 1, color: 'white' }}>
-                  {selectedTasks.length} Task{selectedTasks.length > 1 ? 's' : ''} selected
-                </Typography>
-                <IconButton
-                  onClick={() => {
-                    setShowStatusChangeMenu(false);
-                    onClose();
-                  }}
-                  size="small"
-                  sx={{ color: 'white' }}
-                >
-                  <CloseIcon />
-                </IconButton>
+                <div className='selected-task-count-tag ps-2'>
+                  <Typography variant="body2" sx={{ mr: 1, color: 'white' }}>
+                    {selectedTasks.length} Task{selectedTasks.length > 1 ? 's' : ''} selected
+                  </Typography>
+                  <IconButton
+                    onClick={() => {
+                      setShowStatusChangeMenu(false);
+                      onClose();
+                    }}
+                    size="small"
+                    sx={{ color: 'white' }}
+                  >
+                    <CloseIcon />
+                  </IconButton>
+                </div>
                 <Button
                   onClick={() => setShowStatusChangeMenu(!showStatusChangeMenu)}
                   size="small"

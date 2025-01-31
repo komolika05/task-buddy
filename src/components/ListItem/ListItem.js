@@ -49,7 +49,6 @@ function ListItem({ id, task, isSelected, onSelect }) {
             key={task.id}
             sx={{ 
                 '&:last-child td, &:last-child th': { border: 0 },
-                backgroundColor: isSelected ? 'rgba(0, 0, 255, 0.1)' : 'transparent'
             }}
         >
             <TableCell                     
