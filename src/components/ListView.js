@@ -196,7 +196,7 @@ export default function ListView() {
                 const filteredTasks = filterAndSortTasksByStatus(section.status);
                 return (
                   <TableRow key={section.id}>
-                    <TableCell colSpan={5} style={{ padding: 0 }}>
+                    <TableCell colSpan={6} style={{ padding: 0 }}>
                       <Accordion
                         expanded={expandedAccordions.includes(section.id)}
                         onChange={handleAccordionChange(section.id)}
@@ -205,14 +205,22 @@ export default function ListView() {
                         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                           <Typography>{section.label} ({filteredTasks.length})</Typography>
                         </AccordionSummary>
-                        <AccordionDetails>
-                          {filteredTasks.length > 0 ? (
-                            renderTaskRows(filteredTasks)
-                          ) : (
-                            <Typography variant="body2" color="text.secondary">
-                              No tasks in this section
-                            </Typography>
-                          )}
+                        <AccordionDetails sx={{ padding: 0 }}>
+                          <Table>
+                            <TableBody>
+                              {filteredTasks.length > 0 ? (
+                                renderTaskRows(filteredTasks)
+                              ) : (
+                                <TableRow>
+                                  <TableCell colSpan={6} sx={{ textAlign: 'center', padding: '1rem' }}>
+                                    <Typography>
+                                      No tasks in {section.label}
+                                    </Typography>
+                                  </TableCell>
+                                </TableRow>
+                              )}
+                            </TableBody>
+                          </Table>
                         </AccordionDetails>
                       </Accordion>
                     </TableCell>
