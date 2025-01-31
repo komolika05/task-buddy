@@ -11,7 +11,7 @@ export default function BoardView() {
     const categoryFilter = useSelector((state) => state.tasks.categoryFilter);
     const dueDateFilter = useSelector((state) => state.tasks.dueDateFilter);
 
-    const statuses = ['todo', 'inProgress', 'completed'];
+    const statuses = ['todo', 'in-progress', 'completed'];
 
     const handleEditTask = (taskId) => {
         dispatch(openEditModal(taskId));
@@ -53,51 +53,57 @@ export default function BoardView() {
                             {status.toUpperCase()} ({filterTasksByStatusAndSearch(status).length})
                         </div>
                         {
-                            filterTasksByStatusAndSearch(status).map(task => (
-                                <div 
-                                    key={task.id} 
-                                    className="card mb-2 d-flex flex-column justify-content-between"
-                                >
-                                    <div className="p-3 d-flex justify-content-between">
-                                        <strong>{task.title}</strong>
-                                        <div className="dropdown ms-2">
-                                            <button
-                                                className="actions-btn d-flex align-items-center"
-                                                type="button"
-                                                id="actionDropdown"
-                                                data-bs-toggle="dropdown"
-                                                aria-expanded="false"
-                                            >
-                                                <i className="fas fa-ellipsis-h gray"></i>
-                                            </button>
-                                            <ul className="dropdown-menu" aria-labelledby="actionDropdown">
-                                                <li>
-                                                    <button
-                                                        className="dropdown-item"
-                                                        onClick={() => handleEditTask(task.id)}
-                                                    >
-                                                        <i className="fa-solid fa-pen me-1"></i>
-                                                        Edit
-                                                    </button>
-                                                </li>
-                                                <li>
-                                                    <button
-                                                        className="dropdown-item red"
-                                                        onClick={() => handleDeleteTask(task.id)}
-                                                    >
-                                                        <i className="fa-solid fa-trash-can me-1"></i>
-                                                        Delete
-                                                    </button>
-                                                </li>
-                                            </ul>
+                            filterTasksByStatusAndSearch(status).length === 0 ? (
+                                <div className="p-3 text-center">
+                                    No task is {status}
+                                </div>
+                            ) : (
+                                filterTasksByStatusAndSearch(status).map(task => (
+                                    <div 
+                                        key={task.id} 
+                                        className="card mb-2 d-flex flex-column justify-content-between"
+                                    >
+                                        <div className="p-3 d-flex justify-content-between">
+                                            <strong>{task.title}</strong>
+                                            <div className="dropdown ms-2">
+                                                <button
+                                                    className="actions-btn d-flex align-items-center"
+                                                    type="button"
+                                                    id="actionDropdown"
+                                                    data-bs-toggle="dropdown"
+                                                    aria-expanded="false"
+                                                >
+                                                    <i className="fas fa-ellipsis-h gray"></i>
+                                                </button>
+                                                <ul className="dropdown-menu" aria-labelledby="actionDropdown">
+                                                    <li>
+                                                        <button
+                                                            className="dropdown-item"
+                                                            onClick={() => handleEditTask(task.id)}
+                                                        >
+                                                            <i className="fa-solid fa-pen me-1"></i>
+                                                            Edit
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <button
+                                                            className="dropdown-item red"
+                                                            onClick={() => handleDeleteTask(task.id)}
+                                                        >
+                                                            <i className="fa-solid fa-trash-can me-1"></i>
+                                                            Delete
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div className="p-3 d-flex flex-row justify-content-between">
+                                            <div className="gray card-category-text">{task.category}</div>
+                                            <div className="gray card-category-text">{task.dueDate}</div>
                                         </div>
                                     </div>
-                                    <div className="p-3 d-flex flex-row justify-content-between">
-                                        <div className="gray card-category-text">{task.category}</div>
-                                        <div className="gray card-category-text">{task.dueDate}</div>
-                                    </div>
-                                </div>
-                            ))
+                                ))
+                            )
                         }
                     </div>
                 ))

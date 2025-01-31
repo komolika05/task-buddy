@@ -27,7 +27,7 @@ function ListItem({ id, task, isSelected, onSelect }) {
         transition,
     };
 
-    const statusOptions = [{ label: "To-Do", value: "todo" }, { label: "In Progress", value: "inProgress" }, { label: "Completed", value: "completed" }];
+    const statusOptions = [{ label: "To-Do", value: "todo" }, { label: "In Progress", value: "in-progress" }, { label: "Completed", value: "completed" }];
 
     function handleStatusChange(newStatus) {
         dispatch(updateTask({ id, status: newStatus }));

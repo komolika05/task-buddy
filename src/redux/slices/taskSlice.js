@@ -21,7 +21,7 @@ const loadTasksFromLocalStorage = () => {
           id: '2',
           title: 'This is a sample in-progress task',
           category: 'personal',
-          status: 'inProgress',
+          status: 'in-progress',
           createdAt: new Date().toISOString(),
           order: 0,
           activityLog: []
@@ -38,7 +38,7 @@ const loadTasksFromLocalStorage = () => {
 const initialState = {
   tasks: loadTasksFromLocalStorage(),
   categories: ['work', 'personal'],
-  statuses: ['todo', 'inProgress', 'completed'],
+  statuses: ['todo', 'in-progress', 'completed'],
   editModal: {
     isOpen: false,
     taskId: null

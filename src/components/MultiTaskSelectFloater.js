@@ -43,7 +43,7 @@ export default function MultiTaskSelectFloater({
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
             {[
               { value: 'todo', label: 'To Do' },
-              { value: 'inProgress', label: 'In Progress' },
+              { value: 'in-progress', label: 'In Progress' },
               { value: 'completed', label: 'Completed' }
             ].map((option) => (
               <div

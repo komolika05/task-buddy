@@ -164,7 +164,7 @@ export default function ListView() {
 
   const accordionSections = [
     { id: 'todo', label: 'To Do', status: 'todo' },
-    { id: 'inprogress', label: 'In Progress', status: 'inProgress' },
+    { id: 'inprogress', label: 'In Progress', status: 'in-progress' },
     { id: 'completed', label: 'Completed', status: 'completed' }
   ];
 
@@ -190,7 +190,7 @@ export default function ListView() {
             <TableBody>
               {accordionSections.map((section) => {
                 const filteredTasks = filterAndSortTasksByStatus(section.status);
-                return filteredTasks.length > 0 ? (
+                return (
                   <TableRow key={section.id}>
                     <TableCell colSpan={5} style={{ padding: 0 }}>
                       <Accordion
@@ -206,14 +206,24 @@ export default function ListView() {
                         <AccordionDetails sx={{ padding: 0 }}>
                           <Table>
                             <TableBody>
-                              {renderTaskRows(filteredTasks, section.status)}
+                              {filteredTasks.length > 0 ? (
+                                renderTaskRows(filteredTasks, section.status)
+                              ) : (
+                                <TableRow>
+                                  <TableCell colSpan={4}>
+                                    <Typography sx={{ padding: '1rem', textAlign: 'center' }}>
+                                      No tasks in {section.label}
+                                    </Typography>
+                                  </TableCell>
+                                </TableRow>
+                              )}
                             </TableBody>
                           </Table>
                         </AccordionDetails>
                       </Accordion>
                     </TableCell>
                   </TableRow>
-                ) : null;
+                );
               })}
             </TableBody>
           </Table>
