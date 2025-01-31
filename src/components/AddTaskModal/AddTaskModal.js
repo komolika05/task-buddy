@@ -6,14 +6,23 @@ import '../custom.css';
 
 const defaultTask = {
     title: '',
+    description: '',
     category: 'work',
     dueDate: '',
-    status: 'todo'
+    status: 'todo',
+    attachments: []
 }
+
+// Get today's date in YYYY-MM-DD format
+const getTodayDate = () => {
+    const today = new Date();
+    return today.toISOString().split('T')[0];
+};
 
 function AddTaskModal({ onClose }) {
     const dispatch = useDispatch();
     const [newTask, setNewTask] = useState(defaultTask);
+    const [error, setError] = useState(null);
 
     const handleInputChange = (e) => {
         const { id, value } = e.target;
@@ -23,14 +32,30 @@ function AddTaskModal({ onClose }) {
         }));
     };
 
-    const handleAddTask = (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
 
-        dispatch(addTask(newTask));
+        // Validate required fields
+        if (!newTask.title.trim()) {
+            setError('Title is required');
+            return;
+        }
 
+        // Prepare task object
+        const task = {
+            title: newTask.title.trim(),
+            description: newTask.description.trim(),
+            category: newTask.category.toLowerCase(),
+            status: newTask.status,
+            dueDate: newTask.dueDate || null,
+            attachments: newTask.attachments || []
+        };
+
+        // Dispatch action to add task
+        dispatch(addTask(task));
+
+        // Reset form and close modal
         setNewTask(defaultTask);
-
-        // Close the modal
         onClose();
     };
 
@@ -54,7 +79,7 @@ function AddTaskModal({ onClose }) {
                         ></button>
                     </div>
                     <div className="modal-body p-0">
-                        <form onSubmit={handleAddTask}>
+                        <form onSubmit={handleSubmit}>
                             <div className="p-3">
                                 <div className="mb-3">
                                     <input
@@ -97,6 +122,7 @@ function AddTaskModal({ onClose }) {
                                             id="dueDate"
                                             value={newTask.dueDate}
                                             onChange={handleInputChange}
+                                            min={getTodayDate()}
                                         />
                                     </div>
                                     <div className="col-4">
@@ -121,10 +147,11 @@ function AddTaskModal({ onClose }) {
                                         id="attachment"
                                         onChange={(e) => setNewTask(prevTask => ({
                                             ...prevTask,
-                                            attachment: e.target.files[0]
+                                            attachments: [...prevTask.attachments, e.target.files[0]]
                                         }))}
                                     />
                                 </div>
+                                {error && <div style={{ color: 'red' }}>{error}</div>}
                             </div>
                             <div className="modal-footer">
                                 <button
@@ -134,7 +161,7 @@ function AddTaskModal({ onClose }) {
                                 >
                                     Cancel
                                 </button>
-                                <button type="submit" onClick={handleAddTask} className="btn btn-primary purple-btn">Create</button>
+                                <button type="submit" className="btn btn-primary purple-btn">Create</button>
                             </div>
                         </form>
                     </div>

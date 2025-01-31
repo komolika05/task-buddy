@@ -43,6 +43,12 @@ const EditTaskModal = ({ task }) => {
   const [editedTask, setEditedTask] = useState(task);
   const dispatch = useDispatch();
 
+  // Get today's date in YYYY-MM-DD format
+  const getTodayDate = () => {
+    const today = new Date();
+    return today.toISOString().split('T')[0];
+  };
+
   const handleInputChange = (e) => {
     const { id, value } = e.target;
     setEditedTask(prevTask => ({
@@ -109,8 +115,9 @@ const EditTaskModal = ({ task }) => {
                         type="date"
                         className="form-control"
                         id="dueDate"
-                        value={editedTask.dueDate}
+                        value={editedTask.dueDate || ''}
                         onChange={handleInputChange}
+                        min={getTodayDate()}
                     />
                 </div>
                 <div className='col-3'>

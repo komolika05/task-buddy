@@ -1,56 +1,42 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
 
+// Helper function to load tasks from localStorage
+const loadTasksFromLocalStorage = () => {
+  try {
+    const serializedTasks = localStorage.getItem('tasks');
+    if (serializedTasks === null) {
+      return [
+        {
+          id: '1',
+          title: 'Welcome to ToDo!',
+          description: 'This is a sample task. You can edit it by clicking on it.',
+          category: 'work',
+          status: 'todo',
+          createdAt: new Date().toISOString(),
+          order: 0,
+          activityLog: []
+        },
+        {
+          id: '2',
+          title: 'This is a sample in-progress task',
+          category: 'personal',
+          status: 'inProgress',
+          createdAt: new Date().toISOString(),
+          order: 0,
+          activityLog: []
+        }
+      ];
+    }
+    return JSON.parse(serializedTasks);
+  } catch (e) {
+    console.warn('Error loading tasks from localStorage:', e);
+    return [];
+  }
+};
+
 const initialState = {
-  tasks: [
-    {
-      id: '1',
-      title: 'Welcome to ToDo!',
-      description: 'This is a sample task. You can edit it by clicking on it.',
-      category: 'work',
-      status: 'todo',
-      createdAt: new Date().toISOString(),
-      order: 0,
-      activityLog: []
-    },
-    {
-      id: '2',
-      title: 'This is a sample in-progress task',
-      category: 'personal',
-      status: 'inProgress',
-      createdAt: new Date().toISOString(),
-      order: 0,
-      activityLog: []
-    },
-    {
-      id: '3',
-      title: 'This is a sample completed task',
-      category: 'work',
-      status: 'completed',
-      createdAt: new Date().toISOString(),
-      order: 0,
-      activityLog: []
-    },
-    {
-      id: '4',
-      title: 'This is a sample todo task',
-      category: 'personal',
-      status: 'todo',
-      createdAt: new Date().toISOString(),
-      order: 1,
-      activityLog: []
-    },
-    {
-      id: '5',
-      title: 'Task 3 TODO',
-      description: 'This is a sample task. You can edit it by clicking on it.',
-      category: 'personal',
-      status: 'todo',
-      createdAt: new Date().toISOString(),
-      order: 3,
-      activityLog: []
-    },
-  ],
+  tasks: loadTasksFromLocalStorage(),
   categories: ['work', 'personal'],
   statuses: ['todo', 'inProgress', 'completed'],
   editModal: {
@@ -87,6 +73,7 @@ const taskSlice = createSlice({
       };
       
       state.tasks.push(newTask);
+      localStorage.setItem('tasks', JSON.stringify(state.tasks));
     },
     updateTask: (state, action) => {
       const { id, ...updates } = action.payload;
@@ -121,6 +108,7 @@ const taskSlice = createSlice({
         ];
 
         state.tasks[taskIndex] = updatedTask;
+        localStorage.setItem('tasks', JSON.stringify(state.tasks));
       }
     },
     deleteTask: (state, action) => {
@@ -137,6 +125,7 @@ const taskSlice = createSlice({
         );
 
         state.tasks = state.tasks.filter(task => task.id !== action.payload);
+        localStorage.setItem('tasks', JSON.stringify(state.tasks));
       }
     },
     reorderTasks: (state, action) => {
@@ -170,6 +159,8 @@ const taskSlice = createSlice({
           })
         );
       });
+
+      localStorage.setItem('tasks', JSON.stringify(state.tasks));
     },
     openEditModal: (state, action) => {
       state.editModal.isOpen = true;

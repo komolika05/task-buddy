@@ -75,7 +75,7 @@ export default function ListView() {
 
     return tasks
       .filter(task => {
-        const matchesStatus = task.status.toLowerCase() === status;
+        const matchesStatus = task.status.toLowerCase() === status.toLowerCase();
         const matchesSearch = task.title.toLowerCase().includes(searchQuery.toLowerCase());
         
         // If no category filter is set, include all tasks
@@ -144,7 +144,7 @@ export default function ListView() {
 
   const accordionSections = [
     { id: 'todo', label: 'To Do', status: 'todo' },
-    { id: 'inprogress', label: 'In Progress', status: 'inprogress' },
+    { id: 'inprogress', label: 'In Progress', status: 'inProgress' },
     { id: 'completed', label: 'Completed', status: 'completed' }
   ];
 
