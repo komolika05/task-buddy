@@ -33,8 +33,6 @@ function AddTaskModal({ onClose }) {
     };
 
     const handleSubmit = (e) => {
-        e.preventDefault();
-
         // Validate required fields
         if (!newTask.title.trim()) {
             setError('Title is required');
@@ -79,7 +77,7 @@ function AddTaskModal({ onClose }) {
                         ></button>
                     </div>
                     <div className="modal-body p-0">
-                        <form onSubmit={handleSubmit}>
+                        <>
                             <div className="p-3">
                                 <div className="mb-3">
                                     <input
@@ -161,9 +159,9 @@ function AddTaskModal({ onClose }) {
                                 >
                                     Cancel
                                 </button>
-                                <button type="submit" className="btn btn-primary purple-btn">Create</button>
+                                <button onClick={handleSubmit} className="btn btn-primary purple-btn">Create</button>
                             </div>
-                        </form>
+                        </>
                     </div>
                 </div>
             </div>
