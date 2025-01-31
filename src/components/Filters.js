@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import './custom.css';
 import './filters.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { faMagnifyingGlass, faTimes } from '@fortawesome/free-solid-svg-icons';
 import AddTaskModal from "./AddTaskModal/AddTaskModal";
 import { 
   setSearchQuery, 
@@ -40,9 +40,19 @@ export default function Filters({selectedCategory = ""}) {
         dispatch(setCategoryFilter(category));
     };
 
+    const handleClearCategoryFilter = () => {
+        setSelectedCategoryState('');
+        dispatch(setCategoryFilter(''));
+    };
+
     const handleDueDateChange = (dueDate) => {
         setSelectedDueDateState(dueDate);
         dispatch(setDueDateFilter(dueDate));
+    };
+
+    const handleClearDueDateFilter = () => {
+        setSelectedDueDateState('');
+        dispatch(setDueDateFilter(''));
     };
 
     return (
@@ -51,7 +61,7 @@ export default function Filters({selectedCategory = ""}) {
                 <div className="d-flex flex-row align-items-center">
                     Filters by : 
                     {/* Category Dropdown */}
-                    <div className="dropdown ms-2">
+                    <div className="dropdown ms-2 d-flex align-items-center">
                         <button 
                             className="btn dropdown-btn dropdown-toggle d-flex align-items-center" 
                             type="button" 
@@ -61,6 +71,14 @@ export default function Filters({selectedCategory = ""}) {
                         >
                             {selectedCategoryState || 'Category'}
                         </button>
+                        {selectedCategoryState && (
+                            <FontAwesomeIcon 
+                                icon={faTimes} 
+                                className="ms-2 text-muted" 
+                                style={{ cursor: 'pointer' }}
+                                onClick={handleClearCategoryFilter}
+                            />
+                        )}
                         <ul className="dropdown-menu" aria-labelledby="categoryDropdown">
                             <li>
                                 <button 
@@ -82,7 +100,7 @@ export default function Filters({selectedCategory = ""}) {
                     </div>
 
                     {/* Due Date Dropdown */}
-                    <div className="dropdown ms-2">
+                    <div className="dropdown ms-2 d-flex align-items-center">
                         <button 
                             className="btn dropdown-btn dropdown-toggle d-flex align-items-center" 
                             type="button" 
@@ -92,6 +110,14 @@ export default function Filters({selectedCategory = ""}) {
                         >
                             {selectedDueDateState || 'Due Date'}
                         </button>
+                        {selectedDueDateState && (
+                            <FontAwesomeIcon 
+                                icon={faTimes} 
+                                className="ms-2 text-muted" 
+                                style={{ cursor: 'pointer' }}
+                                onClick={handleClearDueDateFilter}
+                            />
+                        )}
                         <ul className="dropdown-menu" aria-labelledby="dueDateDropdown">
                             <li>
                                 <button 
