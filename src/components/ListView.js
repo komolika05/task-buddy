@@ -46,7 +46,7 @@ export default function ListView() {
   const searchQuery = useSelector((state) => state.tasks.searchQuery);
   const categoryFilter = useSelector((state) => state.tasks.categoryFilter);
   const dueDateFilter = useSelector((state) => state.tasks.dueDateFilter);
-  const [expanded, setExpanded] = useState('todo');
+  const [expandedAccordions, setExpandedAccordions] = useState(['todo']);
   const [selectedTasks, setSelectedTasks] = useState([]);
   const [activeTask, setActiveTask] = useState(null);
 
@@ -90,7 +90,11 @@ export default function ListView() {
   }
 
   const handleAccordionChange = (panel) => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false);
+    setExpandedAccordions(prev => 
+      isExpanded 
+        ? [...prev, panel] 
+        : prev.filter(p => p !== panel)
+    );
   };
 
   const filterAndSortTasksByStatus = (status) => {
@@ -194,31 +198,21 @@ export default function ListView() {
                   <TableRow key={section.id}>
                     <TableCell colSpan={5} style={{ padding: 0 }}>
                       <Accordion
-                        expanded={true}
+                        expanded={expandedAccordions.includes(section.id)}
                         onChange={handleAccordionChange(section.id)}
                         className={`accordion-${section.id}`}
                       >
                         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                          <Typography sx={{ fontWeight: 'bold' }}>
-                            {section.label} ({filteredTasks.length})
-                          </Typography>
+                          <Typography>{section.label} ({filteredTasks.length})</Typography>
                         </AccordionSummary>
-                        <AccordionDetails sx={{ padding: 0 }}>
-                          <Table>
-                            <TableBody>
-                              {filteredTasks.length > 0 ? (
-                                renderTaskRows(filteredTasks, section.status)
-                              ) : (
-                                <TableRow>
-                                  <TableCell colSpan={4}>
-                                    <Typography sx={{ padding: '1rem', textAlign: 'center' }}>
-                                      No tasks in {section.label}
-                                    </Typography>
-                                  </TableCell>
-                                </TableRow>
-                              )}
-                            </TableBody>
-                          </Table>
+                        <AccordionDetails>
+                          {filteredTasks.length > 0 ? (
+                            renderTaskRows(filteredTasks)
+                          ) : (
+                            <Typography variant="body2" color="text.secondary">
+                              No tasks in this section
+                            </Typography>
+                          )}
                         </AccordionDetails>
                       </Accordion>
                     </TableCell>
