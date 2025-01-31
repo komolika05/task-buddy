@@ -105,8 +105,8 @@ const taskSlice = createSlice({
 
         const activityDetails = changedFields.reduce((acc, field) => {
           acc[field] = {
-            from: oldTask[field],
-            to: updates[field]
+            from: oldTask[field] instanceof File ? oldTask[field].name : oldTask[field],
+            to: updates[field] instanceof File ? updates[field].name : updates[field]
           };
           return acc;
         }, {});
