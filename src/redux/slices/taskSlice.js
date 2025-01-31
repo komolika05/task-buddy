@@ -100,7 +100,7 @@ const taskSlice = createSlice({
 
         // Create activity log entry for changes
         const changedFields = Object.keys(updates).filter(
-          key => oldTask[key] !== updates[key]
+          key => oldTask[key] !== updates[key] && key !== 'activityLog'
         );
 
         const activityDetails = changedFields.reduce((acc, field) => {
