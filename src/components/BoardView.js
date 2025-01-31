@@ -92,7 +92,10 @@ export default function BoardView() {
                                             </ul>
                                         </div>
                                     </div>
-                                    <div className="gray card-category-text p-2">{task.category}</div>
+                                    <div className="p-3 d-flex flex-row justify-content-between">
+                                        <div className="gray card-category-text">{task.category}</div>
+                                        <div className="gray card-category-text">{task.dueDate}</div>
+                                    </div>
                                 </div>
                             ))
                         }
