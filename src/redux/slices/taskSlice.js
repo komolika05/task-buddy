@@ -57,7 +57,9 @@ const initialState = {
     isOpen: false,
     taskId: null
   },
-  searchQuery: ''
+  searchQuery: '',
+  categoryFilter: '',
+  dueDateFilter: ''
 };
 
 const createActivityLogEntry = (action, details = {}) => ({
@@ -182,6 +184,12 @@ const taskSlice = createSlice({
     },
     clearSearchQuery: (state) => {
       state.searchQuery = '';
+    },
+    setCategoryFilter: (state, action) => {
+      state.categoryFilter = action.payload;
+    },
+    setDueDateFilter: (state, action) => {
+      state.dueDateFilter = action.payload;
     }
   },
 });
@@ -194,6 +202,8 @@ export const {
   openEditModal, 
   closeEditModal,
   setSearchQuery,
-  clearSearchQuery
+  clearSearchQuery,
+  setCategoryFilter,
+  setDueDateFilter
 } = taskSlice.actions;
 export default taskSlice.reducer;

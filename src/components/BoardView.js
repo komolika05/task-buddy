@@ -8,6 +8,8 @@ export default function BoardView() {
     const dispatch = useDispatch();
     const tasks = useSelector((state) => state.tasks.tasks);
     const searchQuery = useSelector((state) => state.tasks.searchQuery);
+    const categoryFilter = useSelector((state) => state.tasks.categoryFilter);
+    const dueDateFilter = useSelector((state) => state.tasks.dueDateFilter);
 
     const statuses = ['todo', 'inProgress', 'completed'];
 
@@ -20,10 +22,26 @@ export default function BoardView() {
     };
 
     const filterTasksByStatusAndSearch = (status) => {
-        return tasks.filter(task => 
-            task.status === status && 
-            task.title.toLowerCase().includes(searchQuery.toLowerCase())
-        );
+        const today = new Date().toISOString().split('T')[0];
+        const tomorrow = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+
+        return tasks.filter(task => {
+            const matchesStatus = task.status === status;
+            const matchesSearch = task.title.toLowerCase().includes(searchQuery.toLowerCase());
+            
+            // If no category filter is set, include all tasks
+            const matchesCategory = !categoryFilter || task.category === categoryFilter;
+            
+            // If no due date filter is set, include all tasks
+            let matchesDueDate = true;
+            if (dueDateFilter === 'Today') {
+              matchesDueDate = task.dueDate === today;
+            } else if (dueDateFilter === 'Tomorrow') {
+              matchesDueDate = task.dueDate === tomorrow;
+            }
+
+            return matchesStatus && matchesSearch && matchesCategory && matchesDueDate;
+        });
     };
 
     return (
@@ -58,7 +76,7 @@ export default function BoardView() {
                                                         className="dropdown-item"
                                                         onClick={() => handleEditTask(task.id)}
                                                     >
-                                                        <i class="fa-solid fa-pen me-1"></i>
+                                                        <i className="fa-solid fa-pen me-1"></i>
                                                         Edit
                                                     </button>
                                                 </li>
@@ -67,7 +85,7 @@ export default function BoardView() {
                                                         className="dropdown-item red"
                                                         onClick={() => handleDeleteTask(task.id)}
                                                     >
-                                                        <i class="fa-solid fa-trash-can me-1"></i>
+                                                        <i className="fa-solid fa-trash-can me-1"></i>
                                                         Delete
                                                     </button>
                                                 </li>

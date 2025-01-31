@@ -5,12 +5,19 @@ import './filters.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import AddTaskModal from "./AddTaskModal/AddTaskModal";
-import { setSearchQuery, clearSearchQuery } from '../redux/slices/taskSlice';
+import { 
+  setSearchQuery, 
+  clearSearchQuery, 
+  setCategoryFilter,
+  setDueDateFilter 
+} from '../redux/slices/taskSlice';
 
-export default function Filters({selectedCategory = "All"}) {
+export default function Filters({selectedCategory = ""}) {
     const dispatch = useDispatch();
     const searchQuery = useSelector((state) => state.tasks.searchQuery);
     const [isAddTaskModalOpen, setIsAddTaskModalOpen] = useState(false);
+    const [selectedCategoryState, setSelectedCategoryState] = useState(selectedCategory);
+    const [selectedDueDateState, setSelectedDueDateState] = useState('');
 
     const handleOpenAddTaskModal = () => {
         setIsAddTaskModalOpen(true);
@@ -28,6 +35,16 @@ export default function Filters({selectedCategory = "All"}) {
         dispatch(clearSearchQuery());
     };
 
+    const handleCategoryChange = (category) => {
+        setSelectedCategoryState(category);
+        dispatch(setCategoryFilter(category));
+    };
+
+    const handleDueDateChange = (dueDate) => {
+        setSelectedDueDateState(dueDate);
+        dispatch(setDueDateFilter(dueDate));
+    };
+
     return (
         <div className="px-4">
             <div className="d-flex flex-row align-items-center justify-content-between">
@@ -42,19 +59,13 @@ export default function Filters({selectedCategory = "All"}) {
                             data-bs-toggle="dropdown" 
                             aria-expanded="false"
                         >
-                            Category
+                            {selectedCategoryState || 'Category'}
                         </button>
                         <ul className="dropdown-menu" aria-labelledby="categoryDropdown">
                             <li>
                                 <button 
                                     className="dropdown-item" 
-                                >
-                                    All
-                                </button>
-                            </li>
-                            <li>
-                                <button 
-                                    className="dropdown-item" 
+                                    onClick={() => handleCategoryChange('work')}
                                 >
                                     Work
                                 </button>
@@ -62,6 +73,7 @@ export default function Filters({selectedCategory = "All"}) {
                             <li>
                                 <button 
                                     className="dropdown-item" 
+                                    onClick={() => handleCategoryChange('personal')}
                                 >
                                     Personal
                                 </button>
@@ -74,23 +86,17 @@ export default function Filters({selectedCategory = "All"}) {
                         <button 
                             className="btn dropdown-btn dropdown-toggle d-flex align-items-center" 
                             type="button" 
-                            id="categoryDropdown" 
+                            id="dueDateDropdown" 
                             data-bs-toggle="dropdown" 
                             aria-expanded="false"
                         >
-                            Due Date
+                            {selectedDueDateState || 'Due Date'}
                         </button>
-                        <ul className="dropdown-menu" aria-labelledby="categoryDropdown">
+                        <ul className="dropdown-menu" aria-labelledby="dueDateDropdown">
                             <li>
                                 <button 
                                     className="dropdown-item" 
-                                >
-                                    All
-                                </button>
-                            </li>
-                            <li>
-                                <button 
-                                    className="dropdown-item" 
+                                    onClick={() => handleDueDateChange('Today')}
                                 >
                                     Today
                                 </button>
@@ -98,6 +104,7 @@ export default function Filters({selectedCategory = "All"}) {
                             <li>
                                 <button 
                                     className="dropdown-item" 
+                                    onClick={() => handleDueDateChange('Tomorrow')}
                                 >
                                     Tomorrow
                                 </button>

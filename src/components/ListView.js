@@ -45,6 +45,8 @@ export default function ListView() {
   const dispatch = useDispatch();
   const tasks = useSelector((state) => state.tasks.tasks);
   const searchQuery = useSelector((state) => state.tasks.searchQuery);
+  const categoryFilter = useSelector((state) => state.tasks.categoryFilter);
+  const dueDateFilter = useSelector((state) => state.tasks.dueDateFilter);
   const [expanded, setExpanded] = useState('todo');
   const [selectedTasks, setSelectedTasks] = useState([]);
 
@@ -68,11 +70,27 @@ export default function ListView() {
   };
 
   const filterAndSortTasksByStatus = (status) => {
+    const today = new Date().toISOString().split('T')[0];
+    const tomorrow = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+
     return tasks
-      .filter(task => 
-        task.status.toLowerCase() === status && 
-        task.title.toLowerCase().includes(searchQuery.toLowerCase())
-      )
+      .filter(task => {
+        const matchesStatus = task.status.toLowerCase() === status;
+        const matchesSearch = task.title.toLowerCase().includes(searchQuery.toLowerCase());
+        
+        // If no category filter is set, include all tasks
+        const matchesCategory = !categoryFilter || task.category === categoryFilter;
+        
+        // If no due date filter is set, include all tasks
+        let matchesDueDate = true;
+        if (dueDateFilter === 'Today') {
+          matchesDueDate = task.dueDate === today;
+        } else if (dueDateFilter === 'Tomorrow') {
+          matchesDueDate = task.dueDate === tomorrow;
+        }
+
+        return matchesStatus && matchesSearch && matchesCategory && matchesDueDate;
+      })
       .sort((a, b) => a.order - b.order);
   };
 
