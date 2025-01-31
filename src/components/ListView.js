@@ -17,12 +17,11 @@ import {
   AccordionSummary,
   AccordionDetails,
   Typography,
-  Badge,
-  Button,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import './listView.css';
 import ListItem from './ListItem/ListItem';
+import MultiTaskSelectFloater from './MultiTaskSelectFloater';
 
 // For sortable functionality
 import {
@@ -48,7 +47,6 @@ export default function ListView() {
   const searchQuery = useSelector((state) => state.tasks.searchQuery);
   const [expanded, setExpanded] = useState('todo');
   const [selectedTasks, setSelectedTasks] = useState([]);
-  const [showStatusChangeMenu, setShowStatusChangeMenu] = useState(false);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -100,7 +98,6 @@ export default function ListView() {
       dispatch(updateTask({ id: taskId, status: newStatus }));
     });
     setSelectedTasks([]);
-    setShowStatusChangeMenu(false);
   };
 
   const renderTaskRows = (filteredTasks) => {
@@ -178,100 +175,12 @@ export default function ListView() {
         </Table>
       </TableContainer>
 
-      {selectedTasks.length > 0 && (
-        <>
-          {showStatusChangeMenu && (
-            <div 
-              className="status-change-menu" 
-              style={{
-                position: 'fixed',
-                bottom: '80px', 
-                left: '50%', 
-                transform: 'translateX(-50%)',
-                backgroundColor: 'white',
-                boxShadow: '0 -2px 10px rgba(0,0,0,0.1)',
-                borderRadius: '8px',
-                padding: '15px',
-                zIndex: 1000,
-                width: '300px',
-              }}
-            >
-              <Typography variant="h6" sx={{ mb: 2, textAlign: 'center' }}>
-                Change Status
-              </Typography>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                {[
-                  { value: 'todo', label: 'To Do' },
-                  { value: 'inProgress', label: 'In Progress' },
-                  { value: 'completed', label: 'Completed' }
-                ].map((option) => (
-                  <Button 
-                    key={option.value}
-                    variant="outlined"
-                    color="primary"
-                    onClick={() => {
-                      handleBulkStatusChange(option.value);
-                    }}
-                    fullWidth
-                  >
-                    {option.label}
-                  </Button>
-                ))}
-              </div>
-              <Button 
-                variant="text" 
-                color="secondary" 
-                onClick={() => setShowStatusChangeMenu(false)}
-                fullWidth
-                sx={{ mt: 2 }}
-              >
-                Cancel
-              </Button>
-            </div>
-          )}
-
-          <div className="selection-badge">
-            <Badge 
-              badgeContent={selectedTasks.length} 
-              color="primary" 
-              sx={{
-                position: 'fixed', 
-                bottom: '20px', 
-                left: '50%', 
-                transform: 'translateX(-50%)',
-                zIndex: 1000,
-                '& .MuiBadge-badge': {
-                  fontSize: '1rem',
-                  height: '30px',
-                  width: '30px',
-                  borderRadius: '50%'
-                }
-              }}
-            >
-              <div className="d-flex gap-2 bg-white p-2 rounded-pill shadow">
-                <Button 
-                  variant="contained" 
-                  color="error" 
-                  size="small"
-                  onClick={handleBulkDelete}
-                >
-                  Delete
-                </Button>
-                <Button 
-                  variant="contained" 
-                  color="primary" 
-                  size="small"
-                  onClick={() => {
-                    setShowStatusChangeMenu(true);
-                  }}
-                >
-                  Change Status
-                </Button>
-              </div>
-            </Badge>
-          </div>
-        </>
-      )}
+      <MultiTaskSelectFloater 
+        selectedTasks={selectedTasks} 
+        onDelete={handleBulkDelete} 
+        onChangeStatus={handleBulkStatusChange} 
+        onClose={() => setSelectedTasks([])}
+      />
     </div>
   );
 }

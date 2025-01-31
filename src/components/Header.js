@@ -44,7 +44,7 @@ export default function Header() {
                 <div className="ms-2">
                     <button
                     onClick={handleLogout}
-                    className="btn gray-btn logout-btn d-flex align-items-center justify-content-center"
+                    className="btn logout-btn d-flex align-items-center justify-content-center"
                     >
                         <FontAwesomeIcon icon={faSignOutAlt} className="me-2" />
                         Log Out
