@@ -1,0 +1,24 @@
+.modal-footer{
+    background-color: rgb(246, 243, 243);
+}
+.category-btn{
+    width: 80px !important;
+    height: 38px !important;
+    padding: 0 !important;
+    font-size: 14px !important;
+}
+
+.category-btn.active{
+    background-color: purple !important;
+    color: white !important;
+}
+.activity-log-item{
+    margin-bottom: 10px !important;
+}
+.log-timestamp{
+    color: gray !important;
+}
+.activity-log-container{
+    max-height: 300px;
+    overflow-y: auto;
+}
