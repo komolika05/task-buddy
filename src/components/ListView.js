@@ -181,10 +181,10 @@ export default function ListView() {
             <TableHead>
               <TableRow>
                 <TableCell></TableCell>
-                <TableCell><strong>Task Name</strong></TableCell>
-                <TableCell><strong>Due On</strong></TableCell>
-                <TableCell><strong>Task Status</strong></TableCell>
-                <TableCell><strong>Task Category</strong></TableCell>
+                <TableCell sx={{ textAlign: 'left' }}><strong>Task Name</strong></TableCell>
+                <TableCell sx={{ textAlign: 'left' }}><strong>Due On</strong></TableCell>
+                <TableCell sx={{ textAlign: 'left' }}><strong>Task Status</strong></TableCell>
+                <TableCell sx={{ textAlign: 'left' }}><strong>Task Category</strong></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

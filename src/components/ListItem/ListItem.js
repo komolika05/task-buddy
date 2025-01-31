@@ -52,21 +52,23 @@ function ListItem({ id, task, isSelected, onSelect }) {
                 backgroundColor: isSelected ? 'rgba(0, 0, 255, 0.1)' : 'transparent'
             }}
         >
-            <TableCell>
+            <TableCell                     
+                sx={{width: '4px'}}
+            >
                 <Checkbox 
                     checked={isSelected} 
                     onChange={onSelect}
                 />
             </TableCell>
-            <TableCell  {...listeners} {...attributes}><i className="fas fa-grip-vertical gray"></i></TableCell>
-            <TableCell>{task.title}</TableCell>
+            <TableCell  {...listeners} {...attributes} sx={{width: '4px'}}><i className="fas fa-grip-vertical gray"></i></TableCell>
+            <TableCell sx={{width: '400px'}}>{task.title}</TableCell>
             <TableCell>
                 {task.dueDate ? new Date(task.dueDate).toLocaleDateString() : '-'}
             </TableCell>
             <TableCell>
                 <div className="dropdown ms-2">
                     <button
-                        className="btn dropdown-btn dropdown-toggle d-flex align-items-center"
+                        className="btn dropdown-btn status-dropdown d-flex align-items-center"
                         type="button"
                         id="categoryDropdown"
                         data-bs-toggle="dropdown"
