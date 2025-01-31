@@ -155,7 +155,7 @@ const EditTaskModal = ({ task }) => {
             <div className="activity-log-container col-5">
               <h6>Activity Log</h6>
               {task.activityLog && task.activityLog.length > 0 ? (
-                task.activityLog.map(log => (
+                task.activityLog.slice().sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)).map(log => (
                   <ActivityLogItem className='activity-log-item' key={log.id} log={log} />
                 ))
               ) : (
