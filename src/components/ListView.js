@@ -153,6 +153,7 @@ export default function ListView() {
             id={task.id} 
             key={task.id} 
             task={task} 
+            style={{ backgroundColor: 'inherit' }}
             isSelected={selectedTasks.includes(task.id)}
             onSelect={() => handleTaskSelect(task.id)}
           />
