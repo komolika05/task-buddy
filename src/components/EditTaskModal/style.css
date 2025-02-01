@@ -22,3 +22,16 @@
     max-height: 300px;
     overflow-y: auto;
 }
+
+
+.edit-modal {
+    min-width: 1050px !important;
+    min-height: 570px !important;
+}
+
+@media (max-width: 768px) {
+    .edit-modal {
+        min-width: 100% !important;
+        min-height: auto !important;
+    }
+}

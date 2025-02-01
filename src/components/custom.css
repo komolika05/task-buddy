@@ -75,5 +75,19 @@
     .small-screen-hide {
       display: none !important;
     }
+
+    .modal-dialog {
+      position: absolute !important;
+      width: 100% !important;
+      margin: 0 !important;
+      max-width: 100% !important;
+      margin-bottom: 0px !important;
+      bottom: 0 !important;
+    }
+
+    .modal-content {
+      border-bottom-left-radius: 0 !important;
+      border-bottom-right-radius: 0 !important;
+    }
   }
   

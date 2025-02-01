@@ -97,7 +97,7 @@ function ListItem({ id, task, isSelected, onSelect }) {
                     size="small"
                 />
             </TableCell>
-            <TableCell className="small-screen-hide">
+            <TableCell>
                 <div className="dropdown ms-2">
                     <button
                         className="actions-btn d-flex align-items-center"

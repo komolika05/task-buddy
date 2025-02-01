@@ -68,7 +68,7 @@ const EditTaskModal = ({ task }) => {
 
   return (
     <div className="modal" tabIndex="-1" style={{ display: 'block', backgroundColor: 'rgba(0,0,0,0.5)' }}>
-      <div className="modal-dialog" style={{ minWidth: '1020px', minHeight: '570px' }}>
+      <div className="modal-dialog edit-modal">
         <div className="modal-content">
           <div className="modal-header">
             <h5 className="modal-title">Edit Task</h5>
@@ -78,91 +78,91 @@ const EditTaskModal = ({ task }) => {
               onClick={handleCloseModal}
             ></button>
           </div>
-          <div className="modal-body p-3 d-flex justify-content-between">
-            <div className="edit-form-container col-7 me-2">
-              <div className="mb-3">
-                <input
-                  type="text"
-                  className="form-control"
-                  id="title"
-                  value={editedTask.title}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="mb-3">
-                <textarea
-                  className="form-control"
-                  id="description"
-                  value={editedTask.description}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className='col-12 d-flex flex-row justify-content-between'>
-                <div className='col-4'>
-                  <label className="text-gray mb-2">Category</label>
-                  <div className="d-flex flex-row">
-                      <div>
-                          <button className={`btn white-btn me-2 category-btn ${editedTask.category === 'work' ? 'active' : ''}`} onClick={() => handleInputChange({target: {id: 'category', value: 'work'}})}>Work</button>
-                      </div>
-                      <div>
-                          <button className={`btn white-btn category-btn ${editedTask.category === 'personal' ? 'active' : ''}`} onClick={() => handleInputChange({target: {id: 'category', value: 'personal'}})}>Personal</button>
-                      </div>
-                  </div>
-                </div>
-                <div className='col-4 me-3'>
-                    <label htmlFor="dueDate" className="form-label">Due Date</label>
-                    <input
-                        type="date"
-                        className="form-control"
-                        id="dueDate"
-                        value={editedTask.dueDate || ''}
-                        onChange={handleInputChange}
-                        min={getTodayDate()}
-                    />
-                </div>
-                <div className='col-3'>
-                    <label htmlFor="status" className="form-label">Status</label>
-                    <select
-                      className="form-select"
-                      id="status"
-                      value={editedTask.status}
-                      onChange={handleInputChange}
-                    >
-                      <option value="todo">To Do</option>
-                      <option value="in-progress">In Progress</option>
-                      <option value="completed">Completed</option>
-                    </select>
-                </div>
-              </div>
-                <div>
-                  <label className="text-gray mb-1">Attachment</label>
-                  <input
-                      type="file"
-                      className="form-control"
-                      id="attachment"
-                      onChange={(e) => setEditedTask(prevTask => ({
-                          ...prevTask,
-                          attachment: e.target.files[0]
-                      }))}
-                  />
-                  {editedTask.attachment && (
-                    <a href={URL.createObjectURL(editedTask.attachment)} target="_blank" rel="noopener noreferrer">
-                      {editedTask.attachment.name}
-                    </a>
-                  )}
-                </div>
-            </div>
-            <div className="activity-log-container col-5">
-              <h6>Activity Log</h6>
-              {task.activityLog && task.activityLog.length > 0 ? (
-                task.activityLog.slice().sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)).map(log => (
-                  <ActivityLogItem className='activity-log-item' key={log.id} log={log} />
-                ))
-              ) : (
-                <div className="text-center text-muted">No activity recorded</div>
-              )}
-            </div>
-          </div>
+          <div className="modal-body p-3 row">
+  {/* Edit Form */}
+  <div className="edit-form-container col-md-7 col-12 mb-3">
+    <div className="mb-3">
+      <input
+        type="text"
+        className="form-control"
+        id="title"
+        value={editedTask.title}
+        onChange={handleInputChange}
+      />
+    </div>
+    <div className="mb-3">
+      <textarea
+        className="form-control"
+        id="description"
+        value={editedTask.description}
+        onChange={handleInputChange}
+      />
+    </div>
+    <div className='col-12 d-flex flex-wrap justify-content-between'>
+      <div className='col-md-4 col-12 mb-2'>
+        <label className="text-gray mb-2">Category</label>
+        <div className="d-flex">
+          <button className={`btn white-btn me-2 category-btn ${editedTask.category === 'work' ? 'active' : ''}`} onClick={() => handleInputChange({ target: { id: 'category', value: 'work' } })}>Work</button>
+          <button className={`btn white-btn category-btn ${editedTask.category === 'personal' ? 'active' : ''}`} onClick={() => handleInputChange({ target: { id: 'category', value: 'personal' } })}>Personal</button>
+        </div>
+      </div>
+      <div className='col-md-4 col-12 mb-2'>
+        <label htmlFor="dueDate" className="form-label">Due Date</label>
+        <input
+          type="date"
+          className="form-control"
+          id="dueDate"
+          value={editedTask.dueDate || ''}
+          onChange={handleInputChange}
+          min={getTodayDate()}
+        />
+      </div>
+      <div className='col-md-3 col-12 mb-2'>
+        <label htmlFor="status" className="form-label">Status</label>
+        <select
+          className="form-select"
+          id="status"
+          value={editedTask.status}
+          onChange={handleInputChange}
+        >
+          <option value="todo">To Do</option>
+          <option value="in-progress">In Progress</option>
+          <option value="completed">Completed</option>
+        </select>
+      </div>
+    </div>
+    <div>
+      <label className="text-gray mb-1">Attachment</label>
+      <input
+        type="file"
+        className="form-control"
+        id="attachment"
+        onChange={(e) => setEditedTask(prevTask => ({
+          ...prevTask,
+          attachment: e.target.files[0]
+        }))}
+      />
+      {editedTask.attachment && (
+        <a href={URL.createObjectURL(editedTask.attachment)} target="_blank" rel="noopener noreferrer">
+          {editedTask.attachment.name}
+        </a>
+      )}
+    </div>
+  </div>
+
+  {/* Activity Log */}
+  <div className="activity-log-container col-md-5 col-12">
+    <h6>Activity Log</h6>
+    {task.activityLog && task.activityLog.length > 0 ? (
+      task.activityLog.slice().sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)).map(log => (
+        <ActivityLogItem className='activity-log-item' key={log.id} log={log} />
+      ))
+    ) : (
+      <div className="text-center text-muted">No activity recorded</div>
+    )}
+  </div>
+</div>
+
           <div className="modal-footer">
             <button
               type="button"
