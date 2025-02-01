@@ -6,7 +6,7 @@ import { faList, faBox } from '@fortawesome/free-solid-svg-icons';
 
 export default function Tabs({selectedTab, onTabSelect}) {
     return (
-        <div className="mb-3">
+        <div className="mb-3 small-screen-hide">
             <ul className="tab-list px-4">
                 <li className={` ${selectedTab === 'list' ? 'active' : ''}`} onClick={() => onTabSelect('list')}>
                     <FontAwesomeIcon icon={faList} className="me-2" />

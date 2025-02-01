@@ -70,3 +70,10 @@
     color: #333 !important;
     border: none !important;
   }
+
+  @media (max-width: 768px) {
+    .small-screen-hide {
+      display: none !important;
+    }
+  }
+  

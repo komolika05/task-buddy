@@ -24,7 +24,7 @@ export default function Header() {
         <div className="d-flex justify-content-between align-items-center mb-3 px-4">
             <div>
                 <h2 className="header-title fw-600">
-                    <FontAwesomeIcon icon={faClipboardList} className="me-2"/>            
+                    <FontAwesomeIcon icon={faClipboardList} className="me-2 small-screen-hide"/>            
                     TaskBuddy
                 </h2>
             </div>
@@ -38,7 +38,7 @@ export default function Header() {
                     style={{width: '38px', height: '38px'}}
                     />
                 </div>
-                <div className="ms-2">
+                <div className="ms-2 small-screen-hide">
                     {currentUser.displayName}
                 </div>
                 <div className="ms-2">

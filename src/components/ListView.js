@@ -181,14 +181,16 @@ export default function ListView() {
         onDragEnd={handleDragEnd}
       >
         <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="tasks table">
+          <Table className='list-view-table' aria-label="tasks table">
             <TableHead>
               <TableRow>
                 <TableCell></TableCell>
+                <TableCell></TableCell>
                 <TableCell sx={{ textAlign: 'left' }}><strong>Task Name</strong></TableCell>
-                <TableCell sx={{ textAlign: 'left' }}><strong>Due On</strong></TableCell>
-                <TableCell sx={{ textAlign: 'left' }}><strong>Task Status</strong></TableCell>
-                <TableCell sx={{ textAlign: 'left' }}><strong>Task Category</strong></TableCell>
+                <TableCell sx={{ textAlign: 'left' }} className="small-screen-hide"><strong>Due On</strong></TableCell>
+                <TableCell sx={{ textAlign: 'left' }} className="small-screen-hide"><strong>Task Status</strong></TableCell>
+                <TableCell sx={{ textAlign: 'left' }} className="small-screen-hide"><strong>Task Category</strong></TableCell>
+                <TableCell></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -196,7 +198,7 @@ export default function ListView() {
                 const filteredTasks = filterAndSortTasksByStatus(section.status);
                 return (
                   <TableRow key={section.id}>
-                    <TableCell colSpan={6} style={{ padding: 0 }}>
+                    <TableCell colSpan={7} style={{ padding: 0 }}>
                       <Accordion
                         expanded={expandedAccordions.includes(section.id)}
                         onChange={handleAccordionChange(section.id)}

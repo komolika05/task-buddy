@@ -57,7 +57,7 @@ export default function Filters({selectedCategory = ""}) {
 
     return (
         <div className="px-4">
-            <div className="d-flex flex-row align-items-center justify-content-between">
+            <div className="d-flex flex-row align-items-center justify-content-between flex-wrap">
                 <div className="d-flex flex-row align-items-center">
                     Filters by : 
                     {/* Category Dropdown */}

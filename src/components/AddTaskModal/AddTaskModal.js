@@ -66,7 +66,7 @@ function AddTaskModal({ onClose }) {
 
     return (
         <div className="modal" tabIndex="-1" style={{ display: 'block', backgroundColor: 'rgba(0,0,0,0.5)' }}>
-            <div className="modal-dialog" style={{ minWidth: '670px', minHeight: '690px' }}>
+            <div className="modal-dialog add-task-modal">
                 <div className="modal-content">
                     <div className="modal-header">
                         <h5 className="modal-title">Create Task</h5>
@@ -100,19 +100,26 @@ function AddTaskModal({ onClose }) {
                                         required
                                     />
                                 </div>
-                                <div className="mb-3 col-12 d-flex flex-row justify-content-between">
-                                    <div className="col-3 me-2">
+                                <div className="row mb-3">
+                                    <div className="col-md-4 col-12 mb-2">
                                         <label className="text-gray mb-2">Task Category</label>
-                                        <div className="d-flex flex-row">
-                                            <div>
-                                                <button className={`btn white-btn me-2 category-btn ${newTask.category === 'work' ? 'active' : ''}`} onClick={() => handleCategoryChange('work')}>Work</button>
-                                            </div>
-                                            <div>
-                                                <button className={`btn white-btn category-btn ${newTask.category === 'personal' ? 'active' : ''}`} onClick={() => handleCategoryChange('personal')}>Personal</button>
-                                            </div>
+                                        <div className="d-flex">
+                                            <button
+                                                className={`btn white-btn me-2 category-btn ${newTask.category === 'work' ? 'active' : ''}`}
+                                                onClick={() => handleCategoryChange('work')}
+                                            >
+                                                Work
+                                            </button>
+                                            <button
+                                                className={`btn white-btn category-btn ${newTask.category === 'personal' ? 'active' : ''}`}
+                                                onClick={() => handleCategoryChange('personal')}
+                                            >
+                                                Personal
+                                            </button>
                                         </div>
                                     </div>
-                                    <div className="col-4">
+
+                                    <div className="col-md-4 col-12 mb-2">
                                         <label htmlFor="dueDate" className="form-label">Due Date</label>
                                         <input
                                             type="date"
@@ -123,7 +130,8 @@ function AddTaskModal({ onClose }) {
                                             min={getTodayDate()}
                                         />
                                     </div>
-                                    <div className="col-4">
+
+                                    <div className="col-md-4 col-12">
                                         <label htmlFor="status" className="form-label">Status</label>
                                         <select
                                             className="form-select"
@@ -137,6 +145,7 @@ function AddTaskModal({ onClose }) {
                                         </select>
                                     </div>
                                 </div>
+
                                 <div>
                                     <label className="text-gray mb-1">Attachment</label>
                                     <input

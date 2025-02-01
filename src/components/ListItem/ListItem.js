@@ -59,12 +59,12 @@ function ListItem({ id, task, isSelected, onSelect }) {
                     onChange={onSelect}
                 />
             </TableCell>
-            <TableCell  {...listeners} {...attributes} sx={{width: '4px'}}><i className="fas fa-grip-vertical gray"></i></TableCell>
+            <TableCell  {...listeners} {...attributes} sx={{width: '4px'}} className="small-screen-hide"><i className="fas fa-grip-vertical gray"></i></TableCell>
             <TableCell sx={{width: '400px'}}>{task.title}</TableCell>
-            <TableCell>
+            <TableCell className="small-screen-hide">
                 {task.dueDate ? new Date(task.dueDate).toLocaleDateString() : '-'}
             </TableCell>
-            <TableCell>
+            <TableCell className="small-screen-hide">
                 <div className="dropdown ms-2">
                     <button
                         className="btn dropdown-btn status-dropdown d-flex align-items-center"
@@ -90,14 +90,14 @@ function ListItem({ id, task, isSelected, onSelect }) {
                     </ul>
                 </div>
             </TableCell>
-            <TableCell>
+            <TableCell className="small-screen-hide">
                 <Chip
                     label={task.category}
                     variant="outlined"
                     size="small"
                 />
             </TableCell>
-            <TableCell>
+            <TableCell className="small-screen-hide">
                 <div className="dropdown ms-2">
                     <button
                         className="actions-btn d-flex align-items-center"
