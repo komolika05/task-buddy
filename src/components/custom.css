@@ -71,6 +71,10 @@
     border: none !important;
   }
 
+  .big-screen-hide {
+    display: none !important;
+  }
+
   @media (max-width: 768px) {
     .small-screen-hide {
       display: none !important;

@@ -169,7 +169,13 @@ export default function Filters({selectedCategory = ""}) {
                         </div>
                         <div>
                             <button 
-                                className="btn purple-btn ms-2"
+                                className="btn purple-btn ms-2 small-screen-hide"
+                                onClick={handleOpenAddTaskModal}
+                            >
+                                ADD TASK
+                            </button>
+                            <button 
+                                className="btn mt-2 purple-btn ms-2 big-screen-hide add-task-mobile-btn"
                                 onClick={handleOpenAddTaskModal}
                             >
                                 ADD TASK

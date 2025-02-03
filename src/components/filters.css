@@ -45,3 +45,20 @@
     font-size: 14px;
     z-index: 2;
 }
+
+@media (max-width: 768px) {
+    .add-task-mobile-btn{
+        display: block !important;
+        background-color: #7B1984 !important;
+        color: white !important;
+        border-radius: 41px !important;
+        width: 100% !important;
+        padding: 2px 18px !important;
+        height: 40px;
+        border: none !important;
+      }
+      .search-container{
+        margin-top: 10px;
+        width: 180px;
+      }
+}
