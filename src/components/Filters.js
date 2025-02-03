@@ -143,7 +143,9 @@ export default function Filters({selectedCategory = ""}) {
                     {/* Search Bar */}
                     <div className="ms-auto d-flex flex-row align-items-center">
                         <div className="search-container">
-                            <FontAwesomeIcon icon={faMagnifyingGlass} className="search-icon" />
+                            {!searchQuery && (
+                                <FontAwesomeIcon icon={faMagnifyingGlass} className="search-icon" />
+                            )}
                             <input
                                 type="text"
                                 className="form-control search-input"
@@ -154,7 +156,7 @@ export default function Filters({selectedCategory = ""}) {
                             />
                             {searchQuery && (
                                 <button 
-                                    className="btn btn-link clear-search-btn" 
+                                    className="btn clear-search-btn" 
                                     onClick={handleClearSearch}
                                     style={{
                                         position: 'absolute', 
