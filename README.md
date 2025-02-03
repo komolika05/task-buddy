@@ -2,6 +2,7 @@
 
 ## Project Overview
 Task Buddy is a modern, responsive task management application built with React and Firebase. It provides an intuitive interface for creating, editing, and tracking tasks across different categories.
+
 Deployed url : https://task-buddy-khaki.vercel.app/login
 
 ## Features
